@@ -13,10 +13,14 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       {/* Hero Section */}
       <section className="relative flex min-h-[90vh] w-full flex-col items-center justify-center overflow-hidden px-4 pt-20 pb-12">
         <div className="absolute inset-0 z-0">
-          <div 
-            className="h-full w-full bg-cover bg-center bg-no-repeat opacity-40" 
-            style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBjWHyzKV3JJnLN5eM1E_r9yBizPZuBX7qdgzPD0DLNm_SkemNgCIgfiPg12oHvrzL8bI0iaxYQSXQGWDtmjLfaz4rJCrX_fqe_1J3rQgflgA4n78kgb-PdPqZYc4tswg1585xnQl-IJudtFgPYgCq2rj2aSolwhMNNEfyRoi90PwICzYey1rdnCfrFQhnW5J1AcoeB1k8XsrxINGu4CAMW9WyYxMGEZzdjIM474ABIBPSBnqU2sa061jkUIv8gRv1mg4qFRrST089Y")' }}
-          ></div>
+          {/* OPTIMIZATION: Replaced CSS background image with `<img>` tag for better LCP.
+              This is an above-the-fold hero image, so we omit `loading="lazy"` to ensure
+              it's prioritized and loaded as quickly as possible. */}
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjWHyzKV3JJnLN5eM1E_r9yBizPZuBX7qdgzPD0DLNm_SkemNgCIgfiPg12oHvrzL8bI0iaxYQSXQGWDtmjLfaz4rJCrX_fqe_1J3rQgflgA4n78kgb-PdPqZYc4tswg1585xnQl-IJudtFgPYgCq2rj2aSolwhMNNEfyRoi90PwICzYey1rdnCfrFQhnW5J1AcoeB1k8XsrxINGu4CAMW9WyYxMGEZzdjIM474ABIBPSBnqU2sa061jkUIv8gRv1mg4qFRrST089Y"
+            alt="Abuja basketball and flag football leagues collage"
+            className="absolute inset-0 h-full w-full object-cover opacity-40"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent"></div>
           <div className="absolute inset-0 bg-gradient-to-b from-background-dark/50 to-transparent"></div>
         </div>
@@ -81,7 +85,15 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
              {EPISODES.slice(0, 4).map((episode) => (
                <div key={episode.id} className="group relative min-w-[300px] flex-1 max-w-[400px] snap-center rounded-2xl bg-surface-dark p-4 transition-transform hover:-translate-y-1">
                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-black">
-                   <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: `url('${episode.image}')` }}></div>
+                   {/* OPTIMIZATION: Replaced CSS background image with `<img>` and added `loading="lazy"`
+                      because these images are below the fold. This defers loading of off-screen
+                      images, improving initial page load performance. */}
+                   <img
+                    src={episode.image}
+                    alt={episode.title}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                   />
                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                    <button 
                      onClick={() => onPlay(episode)}
@@ -115,7 +127,15 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
             
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:grid-rows-2 h-auto md:h-[600px]">
                 <div className="group relative col-span-1 row-span-1 md:col-span-2 md:row-span-2 overflow-hidden rounded-3xl bg-surface-dark cursor-pointer">
-                    <div className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmamKQFLSBU9m3x4-xX6aQt5abN6S1n9T6X6OxcH8MjRN8xLvIIRTJP64dLS4F2O5bZucfV-ehPKsc_sqE8WD8BeZaNvOjwRUTrgFR8nDHe6PQPajMK0ZHatQpwWPRXhXJw2LO6qKnlX6gDlTT51GyxwyfnwVsJJ78-8uWpgT2ZMH_fEil7Q7lZp7jhruZUevPFcAZZ5BgF9k5cwviL7HtMHNzhaMx0x3XAHAyIggD18fXQ0pgOzGLxa--wbUuLsBkn-GCWPqSChv1")'}}></div>
+                    {/* OPTIMIZATION: Replaced CSS background image with `<img>` and added `loading="lazy"`
+                        because these images are below the fold. This defers loading of off-screen
+                        images, improving initial page load performance. */}
+                    <img
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmamKQFLSBU9m3x4-xX6aQt5abN6S1n9T6X6OxcH8MjRN8xLvIIRTJP64dLS4F2O5bZucfV-ehPKsc_sqE8WD8BeZaNvOjwRUTrgFR8nDHe6PQPajMK0ZHatQpwWPRXhXJw2LO6qKnlX6gDlTT51GyxwyfnwVsJJ78-8uWpgT2ZMH_fEil7Q7lZp7jhruZUevPFcAZZ5BgF9k5cwviL7HtMHNzhaMx0x3XAHAyIggD18fXQ0pgOzGLxa--wbUuLsBkn-GCWPqSChv1"
+                      alt="Buzzer Beater: Wuse vs Garki"
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-8">
                         <span className="mb-2 inline-block rounded-full bg-primary px-3 py-1 text-xs font-bold text-black">Top Play</span>
@@ -127,14 +147,30 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
                     </div>
                 </div>
                 <div className="group relative col-span-1 row-span-1 overflow-hidden rounded-3xl bg-surface-dark cursor-pointer min-h-[200px]">
-                    <div className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBhYMgT980sblmLf4LiVl7TQfo9QqEAFTcmV4sx5jbEfN8mtRChux1sQwH6XUdXajig9ixZtS8jTAtCICdeNfkocJ0B31T_OqQJh9zpMFh_AW8nvW4bVLejZUiosSlmbtgHAO00Xt6_segxM1ivQ5LJ5iBIFwF8YyhfVZAdAAMTbePaxk58Lon3SLOMpnnZ6xB0rBmmVnNbopT2wIFKYoijIJpbqND0Wr2Y63NG7LXGpT5d0NzCjaha5SP0rq0lLlg2B4evSDXilg1")'}}></div>
+                    {/* OPTIMIZATION: Replaced CSS background image with `<img>` and added `loading="lazy"`
+                        because these images are below the fold. This defers loading of off-screen
+                        images, improving initial page load performance. */}
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBhYMgT980sblmLf4LiVl7TQfo9QqEAFTcmV4sx5jbEfN8mtRChux1sQwH6XUdXajig9ixZtS8jTAtCICdeNfkocJ0B31T_OqQJh9zpMFh_AW8nvW4bVLejZUiosSlmbtgHAO00Xt6_segxM1ivQ5LJ5iBIFwF8YyhfVZAdAAMTbePaxk58Lon3SLOMpnnZ6xB0rBmmVnNbopT2wIFKYoijIJpbqND0Wr2Y63NG7LXGpT5d0NzCjaha5SP0rq0lLlg2B4evSDXilg1"
+                        alt="Best Flag Pulls"
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-6">
                         <h4 className="text-lg font-bold text-white">Best Flag Pulls</h4>
                     </div>
                 </div>
                  <div className="group relative col-span-1 row-span-1 overflow-hidden rounded-3xl bg-surface-dark cursor-pointer min-h-[200px]">
-                    <div className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBtSkX3RrqjEjkK6-bw68YlCskmFoa1h07IJqu_2_GU7V5p8lLEesk4mlq0JTf7cqXIrIr5NpZ2bBXSa4hnJuB5a7LLhP9MNEHHyvl0P1t4mEG0twRS2NxjV_azoaLg_Pgt-0KWY69tU6iu83fg78kiG9UkMo9gUWnKWNBn759CJKTb8D4W4c3d07zB9QnywpdLZ2k-weQ4M8xBHxGdItOtuWQBB94AseGWw8NNDPE_VuxX3tX-RHAy54g3WltWyxg-wH5aevUuUmEb")'}}></div>
+                    {/* OPTIMIZATION: Replaced CSS background image with `<img>` and added `loading="lazy"`
+                        because these images are below the fold. This defers loading of off-screen
+                        images, improving initial page load performance. */}
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtSkX3RrqjEjkK6-bw68YlCskmFoa1h07IJqu_2_GU7V5p8lLEesk4mlq0JTf7cqXIrIr5NpZ2bBXSa4hnJuB5a7LLhP9MNEHHyvl0P1t4mEG0twRS2NxjV_azoaLg_Pgt-0KWY69tU6iu83fg78kiG9UkMo9gUWnKWNBn759CJKTb8D4W4c3d07zB9QnywpdLZ2k-weQ4M8xBHxGdItOtuWQBB94AseGWw8NNDPE_VuxX3tX-RHAy54g3WltWyxg-wH5aevUuUmEb"
+                        alt="Trash Talk Mic'd Up"
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-6">
                         <h4 className="text-lg font-bold text-white">Trash Talk Mic'd Up</h4>
