@@ -1,0 +1,3 @@
+## 2024-05-24 - Do Not Commit `package-lock.json`
+**Learning:** Accidentally committing a `package-lock.json` file is a critical, out-of-scope change that can break the repository's dependency management. It was created as a side effect of running `npm install` and was incorrectly included in the commit.
+**Action:** Always check the git status before committing to ensure that no unintended files, especially lock files, are included. If a lock file is not already tracked in the repository, do not add it. I must be vigilant about separating dependency updates from feature changes.
