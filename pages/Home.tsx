@@ -73,6 +73,13 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       {/* Featured Section */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4">
+          {/*
+            BOLT ⚡: Performance Optimization
+            - WHAT: Replaced CSS background-image with `<img>` tags for the featured episode cards.
+            - WHY: Using native `<img>` tags with `loading="lazy"` defers the loading of these below-the-fold images until the user scrolls near them. This reduces the number of initial image requests, speeding up the initial page load and improving metrics like First Contentful Paint (FCP).
+            - IMPACT: Improves initial page load time by avoiding the download of images that aren't immediately visible.
+            - MEASUREMENT: Observe the network waterfall in browser developer tools; these images should only load as you scroll down.
+          */}
           <div className="mb-10 flex items-end justify-between">
             <div>
               <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Listen In</h2>
@@ -90,7 +97,12 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
              {EPISODES.slice(0, 4).map((episode) => (
                <div key={episode.id} className="group relative min-w-[300px] flex-1 max-w-[400px] snap-center rounded-2xl bg-surface-dark p-4 transition-transform hover:-translate-y-1">
                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-black">
-                   <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: `url('${episode.image}')` }}></div>
+                   <img
+                    src={episode.image}
+                    alt={episode.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                   />
                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                    <button 
                      onClick={() => onPlay(episode)}
