@@ -90,7 +90,19 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
              {EPISODES.slice(0, 4).map((episode) => (
                <div key={episode.id} className="group relative min-w-[300px] flex-1 max-w-[400px] snap-center rounded-2xl bg-surface-dark p-4 transition-transform hover:-translate-y-1">
                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-black">
-                   <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: `url('${episode.image}')` }}></div>
+                  {/*
+                    BOLT ⚡: Performance Optimization
+                    - WHAT: Replaced a CSS background-image with an <img> tag.
+                    - WHY: Using an <img> tag with `loading="lazy"` defers the download of below-the-fold images until they are about to enter the viewport. This reduces the initial page load size and saves bandwidth, leading to a faster Largest Contentful Paint (LCP) and Time to Interactive (TTI).
+                    - IMPACT: Improves initial page load performance and reduces unnecessary data consumption.
+                    - MEASUREMENT: Observe the network waterfall in browser dev tools. These images should only be requested as the user scrolls them into view.
+                  */}
+                   <img
+                      src={episode.image}
+                      alt={`Cover art for ${episode.title}`}
+                      loading="lazy"
+                      className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    />
                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                    <button 
                      onClick={() => onPlay(episode)}
