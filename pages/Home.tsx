@@ -90,7 +90,19 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
              {EPISODES.slice(0, 4).map((episode) => (
                <div key={episode.id} className="group relative min-w-[300px] flex-1 max-w-[400px] snap-center rounded-2xl bg-surface-dark p-4 transition-transform hover:-translate-y-1">
                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-black">
-                   <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: `url('${episode.image}')` }}></div>
+                  {/*
+                    BOLT ⚡: Performance Optimization
+                    - WHAT: Replaced a CSS background-image `div` with a native `<img>` tag.
+                    - WHY: Using `<img>` tags for content images allows the use of the `loading="lazy"` attribute. This tells the browser to defer loading of these images until they are about to enter the viewport, reducing the initial page load size and speeding up the Largest Contentful Paint (LCP) and First Input Delay (FID).
+                    - IMPACT: Faster initial page load and improved Core Web Vitals. Only images visible to the user are loaded upfront.
+                    - MEASUREMENT: Observe the network tab in browser developer tools. With a throttled connection, you will see that images for episodes further down the scrollable list are only requested when they are scrolled into view.
+                  */}
+                   <img
+                    src={episode.image}
+                    alt={episode.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                   />
                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
                    <button 
                      onClick={() => onPlay(episode)}
