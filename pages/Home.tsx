@@ -90,9 +90,20 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
              {EPISODES.slice(0, 4).map((episode) => (
                <div key={episode.id} className="group relative min-w-[300px] flex-1 max-w-[400px] snap-center rounded-2xl bg-surface-dark p-4 transition-transform hover:-translate-y-1">
                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-black">
-                   <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: `url('${episode.image}')` }}></div>
+                    {/*
+                      BOLT ⚡: Performance Optimization
+                      - WHAT: Replaced a CSS background-image div with an `<img>` tag.
+                      - WHY: Using a standard `<img>` tag for content images is more semantic and allows the browser to use its native lazy loading capabilities. The `loading="lazy"` attribute tells the browser to defer loading this image until it's about to enter the viewport, saving bandwidth and speeding up initial page load for content that is "below the fold".
+                      - IMPACT: Improves initial page load time and reduces data consumption, especially on pages with many images.
+                    */}
+                   <img
+                    src={episode.image}
+                    alt={episode.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                   />
                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
-                   <button 
+                   <button
                      onClick={() => onPlay(episode)}
                      className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-black shadow-lg transition-transform hover:scale-110 active:scale-95"
                    >
@@ -124,7 +135,13 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
             
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:grid-rows-2 h-auto md:h-[600px]">
                 <div className="group relative col-span-1 row-span-1 md:col-span-2 md:row-span-2 overflow-hidden rounded-3xl bg-surface-dark cursor-pointer">
-                    <div className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmamKQFLSBU9m3x4-xX6aQt5abN6S1n9T6X6OxcH8MjRN8xLvIIRTJP64dLS4F2O5bZucfV-ehPKsc_sqE8WD8BeZaNvOjwRUTrgFR8nDHe6PQPajMK0ZHatQpwWPRXhXJw2LO6qKnlX6gDlTT51GyxwyfnwVsJJ78-8uWpgT2ZMH_fEil7Q7lZp7jhruZUevPFcAZZ5BgF9k5cwviL7HtMHNzhaMx0x3XAHAyIggD18fXQ0pgOzGLxa--wbUuLsBkn-GCWPqSChv1")'}}></div>
+                    {/* BOLT ⚡: Replaced background-image with a lazy-loaded img for faster LCP. */}
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmamKQFLSBU9m3x4-xX6aQt5abN6S1n9T6X6OxcH8MjRN8xLvIIRTJP64dLS4F2O5bZucfV-ehPKsc_sqE8WD8BeZaNvOjwRUTrgFR8nDHe6PQPajMK0ZHatQpwWPRXhXJw2LO6qKnlX6gDlTT51GyxwyfnwVsJJ78-8uWpgT2ZMH_fEil7Q7lZp7jhruZUevPFcAZZ5BgF9k5cwviL7HtMHNzhaMx0x3XAHAyIggD18fXQ0pgOzGLxa--wbUuLsBkn-GCWPqSChv1"
+                        alt="A dramatic buzzer-beater shot in a basketball game."
+                        loading="lazy"
+                        className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-8">
                         <span className="mb-2 inline-block rounded-full bg-primary px-3 py-1 text-xs font-bold text-black">Top Play</span>
@@ -136,14 +153,26 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
                     </div>
                 </div>
                 <div className="group relative col-span-1 row-span-1 overflow-hidden rounded-3xl bg-surface-dark cursor-pointer min-h-[200px]">
-                    <div className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBhYMgT980sblmLf4LiVl7TQfo9QqEAFTcmV4sx5jbEfN8mtRChux1sQwH6XUdXajig9ixZtS8jTAtCICdeNfkocJ0B31T_OqQJh9zpMFh_AW8nvW4bVLejZUiosSlmbtgHAO00Xt6_segxM1ivQ5LJ5iBIFwF8YyhfVZAdAAMTbePaxk58Lon3SLOMpnnZ6xB0rBmmVnNbopT2wIFKYoijIJpbqND0Wr2Y63NG7LXGpT5d0NzCjaha5SP0rq0lLlg2B4evSDXilg1")'}}></div>
+                    {/* BOLT ⚡: Replaced background-image with a lazy-loaded img for faster LCP. */}
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBhYMgT980sblmLf4LiVl7TQfo9QqEAFTcmV4sx5jbEfN8mtRChux1sQwH6XUdXajig9ixZtS8jTAtCICdeNfkocJ0B31T_OqQJh9zpMFh_AW8nvW4bVLejZUiosSlmbtgHAO00Xt6_segxM1ivQ5LJ5iBIFwF8YyhfVZAdAAMTbePaxk58Lon3SLOMpnnZ6xB0rBmmVnNbopT2wIFKYoijIJpbqND0Wr2Y63NG7LXGpT5d0NzCjaha5SP0rq0lLlg2B4evSDXilg1"
+                        alt="A player making a decisive flag pull in a flag football game."
+                        loading="lazy"
+                        className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-6">
                         <h4 className="text-lg font-bold text-white">Best Flag Pulls</h4>
                     </div>
                 </div>
                  <div className="group relative col-span-1 row-span-1 overflow-hidden rounded-3xl bg-surface-dark cursor-pointer min-h-[200px]">
-                    <div className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBtSkX3RrqjEjkK6-bw68YlCskmFoa1h07IJqu_2_GU7V5p8lLEesk4mlq0JTf7cqXIrIr5NpZ2bBXSa4hnJuB5a7LLhP9MNEHHyvl0P1t4mEG0twRS2NxjV_azoaLg_Pgt-0KWY69tU6iu83fg78kiG9UkMo9gUWnKWNBn759CJKTb8D4W4c3d07zB9QnywpdLZ2k-weQ4M8xBHxGdItOtuWQBB94AseGWw8NNDPE_VuxX3tX-RHAy54g3WltWyxg-wH5aevUuUmEb")'}}></div>
+                    {/* BOLT ⚡: Replaced background-image with a lazy-loaded img for faster LCP. */}
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtSkX3RrqjEjkK6-bw68YlCskmFoa1h07IJqu_2_GU7V5p8lLEesk4mlq0JTf7cqXIrIr5NpZ2bBXSa4hnJuB5a7LLhP9MNEHHyvl0P1t4mEG0twRS2NxjV_azoaLg_Pgt-0KWY69tU6iu83fg78kiG9UkMo9gUWnKWNBn759CJKTb8D4W4c3d07zB9QnywpdLZ2k-weQ4M8xBHxGdItOtuWQBB94AseGWw8NNDPE_VuxX3tX-RHAy54g3WltWyxg-wH5aevUuUmEb"
+                        alt="Players engaging in intense trash talk during a game."
+                        loading="lazy"
+                        className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-6">
                         <h4 className="text-lg font-bold text-white">Trash Talk Mic'd Up</h4>
