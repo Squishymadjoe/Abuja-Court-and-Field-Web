@@ -90,8 +90,20 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
              {EPISODES.slice(0, 4).map((episode) => (
                <div key={episode.id} className="group relative min-w-[300px] flex-1 max-w-[400px] snap-center rounded-2xl bg-surface-dark p-4 transition-transform hover:-translate-y-1">
                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-black">
-                   <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: `url('${episode.image}')` }}></div>
-                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+                   {/*
+                    BOLT ⚡: Performance Optimization
+                    - WHAT: Replaced a CSS background-image div with a native <img> tag.
+                    - WHY: Using a native <img> tag with `loading="lazy"` allows the browser to defer loading of off-screen images, especially important in a horizontal scroll container like this one.
+                    - IMPACT: Reduces initial page load size and improves LCP/FID by not loading images that aren't visible.
+                  */}
+                  <img
+                    src={episode.image}
+                    alt={`Cover art for ${episode.title}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                  />
+                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" aria-hidden="true"></div>
                    <button 
                      onClick={() => onPlay(episode)}
                      className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-black shadow-lg transition-transform hover:scale-110 active:scale-95"
