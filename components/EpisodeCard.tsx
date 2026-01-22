@@ -10,12 +10,20 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
       <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">
-        <div 
-          className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" 
-          style={{ 
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)), url('${episode.image}')` 
-          }}
-        ></div>
+        {/*
+          BOLT ⚡: Performance Optimization
+          - WHAT: Replaced a CSS background-image with an <img> tag.
+          - WHY: Using an <img> tag with `loading="lazy"` defers the download of off-screen images, improving initial page load time and reducing bandwidth. A separate div is used to create the gradient overlay, preserving the original design while gaining performance benefits.
+          - IMPACT: Faster page loads on episode list pages, reduced data consumption for users.
+          - MEASUREMENT: In the browser's network tab, episode images should only load as they are scrolled into the viewport.
+        */}
+        <img
+          src={episode.image}
+          alt={`Cover art for ${episode.title}`}
+          loading="lazy"
+          className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
         <div className="absolute right-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs font-bold text-white backdrop-blur-md">
           {episode.duration}
         </div>
