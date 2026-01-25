@@ -10,11 +10,22 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
       <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">
-        <div 
-          className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" 
-          style={{ 
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)), url('${episode.image}')` 
-          }}
+        {/*
+          BOLT ⚡: Performance Optimization
+          - WHAT: Replaced a CSS background-image with a native <img> tag.
+          - WHY: Using a native <img> tag enables browser-level optimizations like automatic lazy loading for below-the-fold images. This defers the download of off-screen images until the user scrolls near them, reducing initial page load time, data consumption, and memory usage. It also improves accessibility by allowing for descriptive alt text.
+          - IMPACT: Improves Largest Contentful Paint (LCP) and reduces initial data usage on pages with many episode cards.
+          - MEASUREMENT: Observe the network tab in browser developer tools. Images for cards outside the initial viewport should only start downloading upon scroll.
+        */}
+        <img
+          src={episode.image}
+          alt={`Cover art for ${episode.title}`}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div
+          className="absolute inset-0 h-full w-full bg-gradient-to-b from-transparent to-black/80"
+          aria-hidden="true"
         ></div>
         <div className="absolute right-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs font-bold text-white backdrop-blur-md">
           {episode.duration}
