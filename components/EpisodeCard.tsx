@@ -10,11 +10,22 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
       <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">
+        {/*
+            BOLT ⚡: Performance Optimization
+            - WHAT: Replaced a div with a CSS background-image with a standard <img> tag.
+            - WHY: Using a native <img> tag allows the browser to apply performance optimizations like lazy loading for images that are off-screen. This significantly reduces the number of image requests on initial page load, speeding up the Largest Contentful Paint (LCP) and reducing overall data consumption. CSS background images are not discoverable by the browser's preload scanner and cannot be deferred.
+            - IMPACT: Improves initial page load time, especially on pages with many episode cards, by deferring off-screen image loading.
+            - MEASUREMENT: Observe the network tab in developer tools. Fewer image requests will be made on initial load, and new image requests will appear as the user scrolls down.
+        */}
+        <img
+            src={episode.image}
+            alt={`Cover art for ${episode.title}`}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
         <div 
-          className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" 
-          style={{ 
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)), url('${episode.image}')` 
-          }}
+            className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"
+            aria-hidden="true"
         ></div>
         <div className="absolute right-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs font-bold text-white backdrop-blur-md">
           {episode.duration}

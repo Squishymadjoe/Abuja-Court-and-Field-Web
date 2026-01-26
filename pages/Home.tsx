@@ -87,13 +87,24 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
             </button>
           </div>
           <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-8 [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-             {EPISODES.slice(0, 4).map((episode) => (
-               <div key={episode.id} className="group relative min-w-[300px] flex-1 max-w-[400px] snap-center rounded-2xl bg-surface-dark p-4 transition-transform hover:-translate-y-1">
-                 <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-black">
-                   <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: `url('${episode.image}')` }}></div>
-                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
-                   <button 
-                     onClick={() => onPlay(episode)}
+            {EPISODES.slice(0, 4).map((episode) => (
+              <div key={episode.id} className="group relative min-w-[300px] flex-1 max-w-[400px] snap-center rounded-2xl bg-surface-dark p-4 transition-transform hover:-translate-y-1">
+                <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-black">
+                  {/*
+                      BOLT ⚡: Performance Optimization
+                      - WHAT: Replaced a div with a CSS background-image with a standard <img> tag.
+                      - WHY: Native <img> tags support the `loading="lazy"` attribute, allowing the browser to defer loading of off-screen images. This is crucial for horizontal carousels like this one, as it prevents all images from loading upfront, improving initial page load speed.
+                      - IMPACT: Faster page load by reducing the number of initial image requests.
+                  */}
+                  <img
+                    src={episode.image}
+                    alt={`Cover art for ${episode.title}`}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+                  <button
+                    onClick={() => onPlay(episode)}
                      className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-black shadow-lg transition-transform hover:scale-110 active:scale-95"
                    >
                      <span className="material-symbols-outlined filled">play_arrow</span>
