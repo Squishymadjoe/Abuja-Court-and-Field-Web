@@ -10,12 +10,20 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
       <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">
-        <div 
-          className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" 
-          style={{ 
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)), url('${episode.image}')` 
-          }}
-        ></div>
+        {/*
+          BOLT ⚡: Performance Optimization
+          - WHAT: Replaced a CSS background-image with an <img> tag.
+          - WHY: Using a semantic <img> tag with loading="lazy" allows the browser to defer loading of off-screen images until they are about to enter the viewport. This significantly reduces the number of initial network requests on pages with many images, leading to faster load times and less data consumption.
+          - IMPACT: Improves initial page load performance, especially on the "Episodes" page, by avoiding a large network waterfall of image requests.
+          - MEASUREMENT: Observe the network tab in browser developer tools. On initial load, only images for visible cards should be requested. As you scroll, new image requests will be triggered.
+        */}
+        <img
+          src={episode.image}
+          alt={`Cover art for ${episode.title}`}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
         <div className="absolute right-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs font-bold text-white backdrop-blur-md">
           {episode.duration}
         </div>
