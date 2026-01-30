@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Episode } from '../types';
 
 interface EpisodeCardProps {
@@ -62,4 +62,8 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   );
 };
 
-export default EpisodeCard;
+// BOLT ⚡: Performance Optimization
+// Wrapped EpisodeCard in React.memo to prevent unnecessary re-renders when parent
+// components update. Combined with useCallback for the `onPlay` prop, this
+// optimization significantly reduces the render count for items in the episode list.
+export default memo(EpisodeCard);
