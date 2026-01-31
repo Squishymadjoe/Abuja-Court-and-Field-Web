@@ -7,7 +7,15 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped Home component in React.memo.
+  - WHY: Prevents the Home page from re-rendering when App state changes (like toggling play/pause)
+         unless its props (setPage, onPlay) change. Combined with useCallback in App.tsx,
+         this makes the Home page much more efficient.
+  - IMPACT: Reduces CPU usage and improves responsiveness when interacting with the audio player while on the Home page.
+*/
+const Home: React.FC<HomeProps> = React.memo(({ setPage, onPlay }) => {
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -163,6 +171,6 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       </style>
     </div>
   );
-};
+});
 
 export default Home;
