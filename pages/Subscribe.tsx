@@ -1,6 +1,12 @@
 import React from 'react';
 
-const Subscribe: React.FC = () => {
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped Subscribe component in React.memo.
+  - WHY: Prevents the Subscribe page from re-rendering when App state changes.
+  - IMPACT: Improves UI stability and reduces CPU usage.
+*/
+const Subscribe: React.FC = React.memo(() => {
   return (
     <div className="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-20">
       <div className="flex flex-col max-w-[960px] w-full flex-1 gap-12">
@@ -98,6 +104,6 @@ const Subscribe: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Subscribe;

@@ -1,6 +1,12 @@
 import React from 'react';
 
-const Contact: React.FC = () => {
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped Contact component in React.memo.
+  - WHY: Prevents the Contact page from re-rendering when App state changes.
+  - IMPACT: Improves UI stability and reduces CPU usage.
+*/
+const Contact: React.FC = React.memo(() => {
   return (
     <div className="flex-grow flex flex-col justify-center items-center px-4 md:px-10 lg:px-40 py-12 md:py-20 relative min-h-[80vh]">
       {/* Background Elements */}
@@ -92,6 +98,6 @@ const Contact: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Contact;
