@@ -6,7 +6,15 @@ interface EpisodeCardProps {
   onPlay: (episode: Episode) => void;
 }
 
-const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped EpisodeCard in React.memo.
+  - WHY: EpisodeCard is a pure component that only depends on its props. By memoizing it,
+         we can skip re-rendering this component when the parent (Home or Episodes page)
+         re-renders, as long as the episode data and onPlay callback remain the same.
+  - IMPACT: Improves rendering performance when navigating or interacting with the audio player.
+*/
+const EpisodeCard: React.FC<EpisodeCardProps> = React.memo(({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
       <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">

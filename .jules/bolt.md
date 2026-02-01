@@ -1,0 +1,3 @@
+## 2023-10-27 - [Memoization of Callbacks and Components]
+**Learning:** In a React application where state is managed at the top level (like `App.tsx`) and passed down through multiple layers to lists of components (like `EpisodeCard`), updating any piece of top-level state (e.g., audio player status) causes a full re-render of the component tree. Without `useCallback` for functions and `React.memo` for components, this leads to unnecessary re-renders of all items in the list.
+**Action:** Always wrap top-level callbacks passed to list items in `useCallback` and wrap the list item components themselves in `React.memo` to ensure stable references and skip redundant renders.
