@@ -9,3 +9,7 @@
 ## 2025-05-14 - Missing Entry Point in Vite Production Builds
 **Learning:** The project's `index.html` lacked a `<script type="module">` tag. While some dev servers might handle this, a Vite production build requires an explicit entry point to bundle the application correctly.
 **Action:** Always verify that `index.html` contains the necessary `<script type="module" src="/index.tsx"></script>` tag for the build process.
+
+## 2025-05-14 - CI Failure with Missing Lock File
+**Learning:** Enabling `cache: npm` in `actions/setup-node` requires a `package-lock.json` file to be committed. Since the project policy is not to commit the lock file, the CI fails when caching is enabled.
+**Action:** Disable npm caching in the CI workflow when no lock file is present in the repository.
