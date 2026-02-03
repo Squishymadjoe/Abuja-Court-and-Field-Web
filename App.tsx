@@ -12,10 +12,13 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  // BOLT ⚡: Performance Optimization
+  // WHAT: Memoize handlePlayEpisode callback
+  // WHY: Prevents all EpisodeCard components from re-rendering when playback state changes in App.tsx
+  const handlePlayEpisode = React.useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
   const renderPage = () => {
     switch (currentPage) {
