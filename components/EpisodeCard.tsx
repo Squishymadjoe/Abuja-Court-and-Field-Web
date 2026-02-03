@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Episode } from '../types';
 
 interface EpisodeCardProps {
@@ -6,20 +6,20 @@ interface EpisodeCardProps {
   onPlay: (episode: Episode) => void;
 }
 
-/*
-  BOLT ⚡: Performance Optimization
-  - WHAT: Wrapped EpisodeCard in React.memo.
-  - WHY: EpisodeCard is a list item that receives several props. When the parent component (App or Episodes) re-renders due to unrelated state changes (like starting a podcast), all 12+ EpisodeCards would re-render. React.memo ensures they only re-render if their specific episode data or the onPlay callback changes.
-  - IMPACT: Combined with the memoized onPlay callback in App.tsx, this reduces the number of re-renders when starting an episode from N (number of episodes) down to 0 for the cards themselves.
-*/
-const EpisodeCard: React.FC<EpisodeCardProps> = memo(({ episode, onPlay }) => {
+// BOLT ⚡: Performance Optimization
+// WHAT: Wrap EpisodeCard in React.memo
+// WHY: Skips re-rendering this component if its props (episode and onPlay) haven't changed.
+//      Combined with useCallback in App.tsx, this reduces re-renders of the episode list to zero when playing an episode.
+const EpisodeCard: React.FC<EpisodeCardProps> = React.memo(({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
-      <div
-        className="h-48 bg-cover bg-center relative group-hover:scale-105 transition-transform duration-500"
-        style={{ backgroundImage: `url(${episode.image})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+      <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">
+        <div
+          className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)), url('${episode.image}')`
+          }}
+        ></div>
         <div className="absolute right-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs font-bold text-white backdrop-blur-md">
           {episode.duration}
         </div>

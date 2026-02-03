@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,13 +12,10 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  /*
-    BOLT ⚡: Performance Optimization
-    - WHAT: Memoized handlePlayEpisode with useCallback.
-    - WHY: This callback is passed to child components (Home, Episodes). By memoizing it, we prevent unnecessary re-renders of those components (and their children like EpisodeCard) when App state changes but the callback doesn't need to.
-    - IMPACT: Reduces the number of re-renders when interacting with the play controls, resulting in a smoother UI experience.
-  */
-  const handlePlayEpisode = useCallback((episode: Episode) => {
+  // BOLT ⚡: Performance Optimization
+  // WHAT: Memoize handlePlayEpisode callback
+  // WHY: Prevents all EpisodeCard components from re-rendering when playback state changes in App.tsx
+  const handlePlayEpisode = React.useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
   }, []);
