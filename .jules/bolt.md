@@ -1,0 +1,3 @@
+## 2025-05-22 - Unnecessary list re-renders due to unstable callbacks
+**Learning:** In this codebase, the main App component manages common player state (isPlaying, currentEpisode). When this state changes, it triggers a re-render of the entire App, which recreates the `handlePlayEpisode` callback. This callback is passed through several layers to `EpisodeCard` components. Without memoization, clicking 'play' on one episode causes every episode in the list to re-render, which is a significant bottleneck as the list grows.
+**Action:** Always wrap shared interaction callbacks in `useCallback` and wrap list item components (like `EpisodeCard`) in `React.memo` to ensure stable props and skipped re-renders.
