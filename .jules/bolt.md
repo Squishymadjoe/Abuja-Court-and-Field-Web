@@ -1,0 +1,3 @@
+## 2025-05-14 - [Memoization Bottleneck in Episode List]
+**Learning:** In this application, global state changes (like toggling play/pause) in the root `App` component were triggering full re-renders of the episode list. Even though the `EpisodeCard` components didn't depend on the player state, they were re-created because their parent `Episodes` component re-rendered and the `onPlay` callback was a new function reference on every render.
+**Action:** Always use `React.memo` for list items and `useCallback` for callbacks passed to them to maintain stable references and prevent unnecessary re-renders.
