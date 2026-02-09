@@ -13,7 +13,7 @@ interface EpisodeCardProps {
  * Impact: Reduces re-renders from O(N) to 0 for other cards in the list when
  * an episode is played.
  */
-const EpisodeCard = memo(({ episode, onPlay }: EpisodeCardProps) => {
+const EpisodeCard: React.FC<EpisodeCardProps> = memo(({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
       <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">
