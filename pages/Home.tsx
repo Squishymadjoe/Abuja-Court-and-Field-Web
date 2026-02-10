@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Page, Episode } from '../types';
 import { EPISODES } from '../constants';
 
@@ -7,7 +7,13 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped Home component in React.memo().
+  - WHY: Home is a large component that doesn't need to re-render when the global playback state changes in App.tsx.
+  - IMPACT: Eliminates unnecessary re-renders of the entire home page when playing/pausing audio.
+*/
+const Home = memo(({ setPage, onPlay }: HomeProps) => {
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -163,6 +169,6 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       </style>
     </div>
   );
-};
+});
 
 export default Home;
