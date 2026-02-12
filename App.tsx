@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,10 +12,16 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  // BOLT ⚡: Performance Optimization
+  // - WHAT: Wrapped handlePlayEpisode in useCallback.
+  // - WHY: This ensures the function reference remains stable across re-renders of the App component.
+  //   Since this function is passed as a prop to Episodes and EpisodeCard, a stable reference
+  //   is necessary for React.memo to work effectively in those child components.
+  // - IMPACT: Prevents unnecessary re-renders of the entire episode list when an episode is played or paused.
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
   const renderPage = () => {
     switch (currentPage) {
