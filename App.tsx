@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,10 +12,15 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  // BOLT ⚡: Performance Optimization
+  // - WHAT: Wrapped handlePlayEpisode in useCallback.
+  // - WHY: This ensures the function reference remains stable across re-renders of the App component.
+  //   Since this function is passed down to multiple EpisodeCard components, stabilizing it
+  //   prevents those child components from re-rendering unnecessarily when App's state changes.
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
   const renderPage = () => {
     switch (currentPage) {
