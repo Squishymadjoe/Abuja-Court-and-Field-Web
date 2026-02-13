@@ -11,3 +11,7 @@
 ## 2025-05-14 - Repository Hygiene
 **Learning:** Running `npm install` creates a `package-lock.json` file which should NOT be committed to this repository as it might conflict with the intended package manager or workflow.
 **Action:** Always delete `package-lock.json` before submitting if it was generated during development/verification.
+
+## 2025-05-14 - Vite CI Build Issues
+**Learning:** The project's CI was originally configured for Webpack (`webpack.yml`) despite the project being built with Vite. Additionally, `@vitejs/plugin-react` (v5.1.2+) is incompatible with Node.js 18.
+**Action:** Ensure CI workflows use `npm run build` for Vite projects and target Node.js >= 20. Rename legacy CI files (e.g., `webpack.yml` to `build.yml`) to reflect the actual build system.
