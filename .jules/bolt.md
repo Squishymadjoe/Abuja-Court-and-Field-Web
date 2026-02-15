@@ -1,0 +1,3 @@
+## 2025-05-14 - [Centralized State Re-render Bottleneck]
+**Learning:** In this application, high-level state (like `isPlaying` and `currentEpisode` in `App.tsx`) is passed down through `Layout`. Any update to the player state triggers a full re-render of `App`, which in turn re-renders the active page (`Home` or `Episodes`). Without memoization, every `EpisodeCard` in the list re-renders unnecessarily, even if they are just display components.
+**Action:** Always wrap major page components and list items in `React.memo` and use `useCallback` for event handlers passed down from `App` to ensure stable references and prevent tree-wide re-renders during playback interactions.
