@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Page, Episode } from '../types';
 import { EPISODES } from '../constants';
 
@@ -7,7 +7,8 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+// BOLT ⚡: Performance Optimization - Memoize Home page to avoid unnecessary re-renders from App state changes
+const Home = memo<HomeProps>(({ setPage, onPlay }) => {
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -163,6 +164,8 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       </style>
     </div>
   );
-};
+});
+
+Home.displayName = 'Home';
 
 export default Home;
