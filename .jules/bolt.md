@@ -1,0 +1,3 @@
+## 2025-02-14 - Re-render optimization in SPA with centralized state
+**Learning:** The `renderPage` switch-case pattern in `App.tsx` returns new React elements on every render. When the parent state (`isPlaying`) changes, these elements are reconciled. If they receive unstable props (like a non-memoized `handlePlayEpisode` callback), they and all their children (e.g., a long list of `EpisodeCard`s) will re-render, causing significant performance overhead (16 renders vs 2 in this case).
+**Action:** Always wrap centralized callbacks in `useCallback` and memoize both the page-level components and expensive list items using `React.memo` to ensure stable reconciliation in this architecture.
