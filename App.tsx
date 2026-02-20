@@ -12,6 +12,10 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  // BOLT ⚡: Performance Optimization - Stable callback to prevent child re-renders
+  // This useCallback ensures the handler has a stable reference, preventing
+  // memoized child components (Home, Episodes, EpisodeCard) from re-rendering
+  // when the parent App component's state (currentPage, isPlaying) changes.
   const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);

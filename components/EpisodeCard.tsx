@@ -6,6 +6,9 @@ interface EpisodeCardProps {
   onPlay: (episode: Episode) => void;
 }
 
+// BOLT ⚡: Performance Optimization - Memoized list item
+// Prevents individual episode cards from re-rendering when parent state (like playback) changes.
+// Impact: O(1) rendering on state updates instead of O(N) where N is the number of episodes.
 const EpisodeCard = memo(({ episode, onPlay }: EpisodeCardProps) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">

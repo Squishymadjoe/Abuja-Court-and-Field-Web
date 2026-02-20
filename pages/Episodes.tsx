@@ -7,6 +7,9 @@ interface EpisodesProps {
   onPlay: (episode: Episode) => void;
 }
 
+// BOLT ⚡: Performance Optimization - Memoized component
+// Prevents the Episodes page and its children from re-rendering when the audio player state changes.
+// Impact: Reduces re-renders of the entire episode list from N to 0 during playback state updates.
 const Episodes = memo(({ onPlay }: EpisodesProps) => {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">

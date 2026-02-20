@@ -7,6 +7,9 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
+// BOLT ⚡: Performance Optimization - Memoized component
+// Prevents the Home page from re-rendering when the audio player state changes in App.tsx.
+// Impact: Reduces re-renders from 2 down to 0 during playback state updates.
 const Home = memo(({ setPage, onPlay }: HomeProps) => {
   return (
     <div className="relative flex w-full flex-col">
