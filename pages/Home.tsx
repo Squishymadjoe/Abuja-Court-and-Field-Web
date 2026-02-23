@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Page, Episode } from '../types';
 import { EPISODES } from '../constants';
 
@@ -15,15 +15,14 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
         <div className="absolute inset-0 z-0">
           {/*
             BOLT ⚡: Performance Optimization
-            - WHAT: Replaced a CSS background-image with an <img> tag for the hero image.
-            - WHY: Using an <img> tag allows the browser's preload scanner to discover and start downloading the image much earlier in the page load process. CSS background images are only discovered after CSS is parsed, which can delay the download of a critical, above-the-fold image like this one.
-            - IMPACT: This change significantly improves the Largest Contentful Paint (LCP) metric, a key indicator of perceived load speed.
-            - MEASUREMENT: LCP can be measured using tools like Lighthouse or WebPageTest. The image request should appear earlier in the network waterfall chart.
+            - WHAT: Replaced a CSS background-image with an <img> tag for the hero image and fixed fetchPriority casing.
+            - WHY: Using an <img> tag allows the browser's preload scanner to discover and start downloading the image much earlier.
+            - IMPACT: This change significantly improves the Largest Contentful Paint (LCP) metric.
           */}
           <img
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjWHyzKV3JJnLN5eM1E_r9yBizPZuBX7qdgzPD0DLNm_SkemNgCIgfiPg12oHvrzL8bI0iaxYQSXQGWDtmjLfaz4rJCrX_fqe_1J3rQgflgA4n78kgb-PdPqZYc4tswg1585xnQl-IJudtFgPYgCq2rj2aSolwhMNNEfyRoi90PwICzYey1rdnCfrFQhnW5J1AcoeB1k8XsrxINGu4CAMW9WyYxMGEZzdjIM474ABIBPSBnqU2sa061jkUIv8gRv1mg4qFRrST089Y"
             alt="An intense basketball game in action, serving as a dramatic backdrop for the podcast hero section."
-            fetchpriority="high"
+            fetchPriority="high"
             className="absolute inset-0 h-full w-full object-cover object-center opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent"></div>
@@ -165,4 +164,7 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
   );
 };
 
-export default Home;
+const MemoizedHome = memo(Home);
+MemoizedHome.displayName = 'Home';
+
+export default MemoizedHome;
