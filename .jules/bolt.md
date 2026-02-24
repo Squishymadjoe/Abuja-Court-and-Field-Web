@@ -1,0 +1,3 @@
+## 2025-05-14 - [Stabilizing Component Branches in SPAs]
+**Learning:** In this SPA's architecture where `App.tsx` manages a `currentPage` state and uses a `renderPage()` function, every state change in `App` (like toggling `isPlaying`) caused a full re-render of the current page and its entire children tree. This happened because `renderPage()` returned a fresh React element every time, and props like `handlePlayEpisode` were being re-created.
+**Action:** To effectively eliminate these re-renders, the `onPlay` callback must be wrapped in `useCallback`, the page components must be wrapped in `React.memo`, AND the `renderPage` result itself should be memoized using `useMemo` in `App.tsx`.

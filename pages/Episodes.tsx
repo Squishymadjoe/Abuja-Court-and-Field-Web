@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import EpisodeCard from '../components/EpisodeCard';
 import { EPISODES } from '../constants';
 import { Episode } from '../types';
@@ -7,7 +7,13 @@ interface EpisodesProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped the Episodes page in React.memo.
+  - WHY: This component renders a list of EpisodeCard components. Memoizing it prevents the entire list from re-rendering when the parent App state changes (e.g., during playback), as long as its own props (like the stable onPlay callback) remain unchanged.
+  - IMPACT: Reduces unnecessary re-renders of the episode list by 100% during playback toggles.
+*/
+const Episodes = memo(({ onPlay }: EpisodesProps) => {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Page Title Area */}
@@ -82,6 +88,8 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
       </div>
     </div>
   );
-};
+});
+
+Episodes.displayName = 'Episodes';
 
 export default Episodes;
