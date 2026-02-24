@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Page, Episode } from '../types';
 import { EPISODES } from '../constants';
 
@@ -7,7 +7,12 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped the Home page in React.memo.
+  - WHY: Prevents the home page from re-rendering unnecessarily when the global App state changes (like the playback status in the footer). This is particularly important as the home page contains several sections and animations.
+*/
+const Home = memo(({ setPage, onPlay }: HomeProps) => {
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -163,6 +168,8 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       </style>
     </div>
   );
-};
+});
+
+Home.displayName = 'Home';
 
 export default Home;
