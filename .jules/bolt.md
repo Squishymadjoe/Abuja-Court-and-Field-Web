@@ -1,0 +1,3 @@
+## 2025-05-22 - [Stabilizing Page Components with useMemo]
+**Learning:** In architectures where a routing function (like `renderPage`) returns JSX directly, `React.memo` on the child components is not enough because the parent returns a new element instance on every render.
+**Action:** Use `useMemo` to stabilize the output of the routing function in addition to `useCallback` for props and `React.memo` for the components themselves.
