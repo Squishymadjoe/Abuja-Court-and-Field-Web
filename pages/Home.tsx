@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Page, Episode } from '../types';
 import { EPISODES } from '../constants';
 
@@ -7,7 +7,14 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+/* BOLT ⚡: Performance Optimization
+   - WHAT: Wrapped Home component in React.memo.
+   - WHY: This component is large and contains many sub-sections. Memoizing it ensures it
+     only re-renders if setPage or onPlay changes, avoiding redundant renders when
+     parent state (like isPlaying) updates.
+   - IMPACT: Improves performance of the main landing page during background tasks.
+*/
+const Home = memo(function Home({ setPage, onPlay }: HomeProps) {
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -163,6 +170,6 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       </style>
     </div>
   );
-};
+});
 
 export default Home;

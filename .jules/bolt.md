@@ -1,0 +1,3 @@
+## 2025-05-15 - [React Context and Re-renders in SPA]
+**Learning:** In a single-page application with a central state (App.tsx) for features like a global audio player, any update to that state (isPlaying, currentEpisode) triggers a re-render of the entire component tree. This is especially problematic when the "routing" is handled via a render function that returns new JSX branches on every render, as it bypasses React.memo on child components.
+**Action:** Stabilize the "routing" JSX branch using useMemo and ensure all callbacks passed as props are wrapped in useCallback. Additionally, wrap all high-frequency child components (like list items) in React.memo to ensure they only update when their specific props change.
