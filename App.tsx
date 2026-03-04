@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,26 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  /* BOLT ⚡: Performance Optimization
+     - WHAT: Memoized the handlePlayEpisode callback using useCallback.
+     - WHY: Prevents child components (like EpisodeCard) from re-rendering unnecessarily
+            whenever the App component re-renders (e.g., when isPlaying state changes).
+     - IMPACT: Reduces re-renders of all episode list items when toggling playback.
+  */
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /* BOLT ⚡: Performance Optimization
+     - WHAT: Memoized the rendered page component using useMemo.
+     - WHY: In this SPA architecture, the routing logic in renderPage() returns a new
+            element on every render. useMemo ensures the same element reference is
+            preserved unless currentPage or the play handler changes.
+     - IMPACT: Prevents the entire page content from being re-mounted or re-rendered
+               unnecessarily when unrelated global state (like isPlaying) changes.
+  */
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +46,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +56,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };

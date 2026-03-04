@@ -1,0 +1,3 @@
+## 2025-05-22 - [Optimizing SPA Re-renders]
+**Learning:** In a centralized state architecture (App.tsx) with a routing function (renderPage), stabilizing the callback with `useCallback` is not enough. The `renderPage` function returns a new JSX branch on every render, which React treats as a new element, bypassing `React.memo` on the page-level component.
+**Action:** Use `useMemo` to stabilize the JSX element returned by the routing logic in addition to `useCallback` for event handlers and `React.memo` for the components themselves. This three-pronged approach is necessary to eliminate redundant re-renders of the entire page content.
