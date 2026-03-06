@@ -1,0 +1,3 @@
+## 2026-03-06 - Prevent list re-renders when toggling global player state
+**Learning:** In a Single Page Application (SPA) where routing is handled by a state-driven `renderPage` function in the root component, any state change in the root (like an `isPlaying` flag) will cause the entire page branch to re-render, even if the page component is wrapped in `React.memo`. This is because the JSX returned by `renderPage()` is a new element tree on every call.
+**Action:** Stabilize the returned JSX branch using `useMemo` in the root component, ensuring the page instance remains stable across unrelated state changes, thus allowing `React.memo` on the page and its children (like `EpisodeCard`) to effectively skip re-renders.
