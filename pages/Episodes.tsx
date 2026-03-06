@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import EpisodeCard from '../components/EpisodeCard';
 import { EPISODES } from '../constants';
 import { Episode } from '../types';
@@ -7,7 +7,12 @@ interface EpisodesProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped component in React.memo.
+  - WHY: Skips re-rendering the entire episode list when parent state changes but props remain stable.
+*/
+const Episodes = memo(function Episodes({ onPlay }: EpisodesProps) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Page Title Area */}
@@ -82,6 +87,6 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Episodes;
