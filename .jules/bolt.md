@@ -1,0 +1,4 @@
+## 2025-05-14 - Redundant Re-renders in Centralized State SPAs
+**Learning:** In a Single Page Application where routing and playback state are centralized in the root `App` component, every state change (like toggling `isPlaying`) triggers a re-render of the entire active page branch. Even if page components are wrapped in `React.memo`, they will still re-render if the parent `App` passes new function references (callbacks) or if the `renderPage` function returns a new JSX element on every call.
+
+**Action:** Stabilize both the callbacks using `useCallback` and the returned JSX branch using `useMemo` in the parent. Then, apply `React.memo` to the child components (like `EpisodeCard`) that are expensive to render or appear in large lists. This multi-layered approach ensures that updates to one state (playback) do not impact the rendering performance of unrelated UI branches (the episode list).
