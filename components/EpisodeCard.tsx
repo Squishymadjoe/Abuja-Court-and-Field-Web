@@ -6,16 +6,28 @@ interface EpisodeCardProps {
   onPlay: (episode: Episode) => void;
 }
 
-const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
+/* BOLT ⚡: Performance Optimization
+   - WHAT: Wrapped EpisodeCard in React.memo and used a named function.
+   - WHY: This component is rendered many times in a list (Home, Episodes). Memoization ensures it only re-renders when its props (episode data or onPlay callback) change. Since onPlay is now stable (via useCallback in App), list item re-renders are minimized.
+   - IMPACT: Drastically reduces re-render counts when the global player state (isPlaying) changes.
+*/
+const EpisodeCard: React.FC<EpisodeCardProps> = React.memo(function EpisodeCard({ episode, onPlay }) {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
       <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">
-        <div 
-          className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" 
-          style={{ 
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)), url('${episode.image}')` 
-          }}
-        ></div>
+        {/*
+          BOLT ⚡: Performance Optimization
+          - WHAT: Replaced CSS background-image with an <img> tag using loading="lazy".
+          - WHY: Using an <img> tag allows the browser's preload scanner to discover images earlier and enables native lazy loading via the "loading" attribute. Background images are only discovered after CSS is parsed and are not easily lazy-loaded.
+          - IMPACT: Faster Time to First Meaningful Paint and reduced initial bandwidth usage for off-screen cards.
+        */}
+        <img
+          src={episode.image}
+          alt={episode.title}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
         <div className="absolute right-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs font-bold text-white backdrop-blur-md">
           {episode.duration}
         </div>
@@ -60,6 +72,6 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
       </div>
     </article>
   );
-};
+});
 
 export default EpisodeCard;
