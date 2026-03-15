@@ -1,0 +1,3 @@
+## 2025-05-14 - Stabilizing the Component Tree for React.memo
+**Learning:** In a Single Page Application (SPA) using a simple state-based router (e.g., a switch statement in App.tsx), wrapping the returned JSX in `useMemo` is critical. Without it, every update to the parent's state (like audio playback toggling) causes the router to return a "new" element tree. Even if the child components (Pages or Cards) are wrapped in `React.memo`, they will still re-render because their immediate parent element in the tree is seen as a new reference by React.
+**Action:** Always stabilize the routing JSX branch with `useMemo` when global state updates frequently, and ensure callbacks passed down the tree are stabilized with `useCallback`.
