@@ -1,0 +1,3 @@
+## 2025-05-14 - Redundant re-renders in SPA routing
+**Learning:** In a single-page application with centralized state (like an audio player), toggling state at the root can trigger re-renders of the entire active page and all its children (e.g., episode lists). This happens even if the page content doesn't depend on that specific state, especially if the "renderPage" function returns new JSX elements on every render.
+**Action:** Use `useMemo` to stabilize the JSX branch for the current page, `useCallback` to stabilize event handlers passed to pages, and `React.memo` on list items (like `EpisodeCard`) to prevent them from re-rendering when the parent list is stabilized.
