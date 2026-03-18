@@ -7,7 +7,12 @@ interface EpisodesProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
+/* BOLT ⚡: Performance Optimization
+ * WHAT: Wrap Episodes page component in React.memo
+ * WHY: Prevents the entire archive list from re-rendering when the parent App
+ *      re-renders (e.g., during audio player state updates).
+ */
+const Episodes: React.FC<EpisodesProps> = React.memo(({ onPlay }) => {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Page Title Area */}
@@ -82,6 +87,6 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Episodes;

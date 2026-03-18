@@ -1,0 +1,3 @@
+## 2025-05-15 - Decoupling Global State from Page Content
+**Learning:** In a single-page application where global state (like an audio player's `isPlaying` status) lives in the root `App` component, every state toggle triggers a full app re-render. If the routing logic simply returns JSX (e.g., `renderPage()`), React treats the returned element as new, forcing a full re-render of the entire page content regardless of `React.memo` on the page components.
+**Action:** Always wrap the returned JSX of a routing function in `useMemo` (e.g., `const renderedPage = useMemo(() => renderPage(), [currentPage, callbacks])`) to stabilize the component tree and allow `React.memo` to work effectively on child components.
