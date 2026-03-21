@@ -1,0 +1,3 @@
+## 2025-05-14 - Stabilizing JSX Branches for Memoization
+**Learning:** In a routing pattern where a function returns JSX based on state, React treats the returned element as a new instantiation on every parent render. This causes child components (even if wrapped in `React.memo`) to re-render because their parent "element" has changed. Using `useMemo` to stabilize the returned JSX branch is critical to allow `React.memo` on the child components to effectively skip re-renders when unrelated parent state (like audio playback) updates.
+**Action:** Always check if page-level components are being re-instantiated via a routing function and wrap the result in `useMemo` if parent state changes frequently.

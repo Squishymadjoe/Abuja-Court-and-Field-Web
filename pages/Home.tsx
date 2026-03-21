@@ -7,7 +7,13 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped Home component with React.memo.
+  - WHY: Prevents unnecessary re-renders of the hero section and featured list when App's state (like isPlaying) changes.
+  - IMPACT: Optimized rendering for the main landing experience.
+*/
+const Home = React.memo(function Home({ setPage, onPlay }: HomeProps) {
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -163,6 +169,6 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       </style>
     </div>
   );
-};
+});
 
 export default Home;
