@@ -1,0 +1,3 @@
+## 2026-03-23 - [JSX Stabilization via useMemo]
+**Learning:** Functions returning JSX within a render body (e.g., `renderPage()`) cause a full recreation of the component tree on every parent render. Even if the child components (like `Episodes` or `Home`) are wrapped in `React.memo`, they will always re-render because the *element reference* returned by the function is new every time.
+**Action:** Use `useMemo` to stabilize the JSX branch returned by such routing/conditional logic. This ensures that the element reference stays the same between renders, allowing `React.memo` on child components to effectively bail out of unnecessary re-renders.
