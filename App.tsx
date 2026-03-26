@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,24 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  /*
+    BOLT ⚡: Performance Optimization
+    - WHAT: Stabilized the handlePlayEpisode callback using useCallback.
+    - WHY: Prevents the play handler reference from changing on every state update (e.g., toggling isPlaying). This is crucial for avoiding unnecessary re-renders in child components that receive this callback as a prop.
+    - IMPACT: Together with React.memo on child components, it prevents entire page sub-trees from re-rendering during audio playback state changes.
+  */
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /*
+    BOLT ⚡: Performance Optimization
+    - WHAT: Memoized the rendered page JSX using useMemo.
+    - WHY: Prevents the active page component (Home, Episodes, etc.) from being re-instantiated on every App re-render. Since playback state changes frequently in this app, stabilizing the page component reference is essential for React.memo to work effectively on its children.
+    - IMPACT: Eliminates redundant re-renders of the entire page content during playback toggles.
+  */
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +44,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +54,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };
