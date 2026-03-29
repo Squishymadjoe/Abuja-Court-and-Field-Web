@@ -1,0 +1,3 @@
+## 2026-03-29 - [React 19 Rendering & Routing Patterns]
+**Learning:** In a single-page application using React 19, simply wrapping list items in `React.memo` is insufficient if the parent routing component (e.g., `App.tsx`) re-instantiates the entire page element on every render. A `switch` or ternary in the main render path returns a NEW JSX element tree every time, which bypasses `React.memo` on its children since the root of that branch changed.
+**Action:** Use `useMemo` to stabilize the current page's JSX branch in the router (e.g., `const renderedPage = useMemo(() => { ... }, [currentPage, handlePlayEpisode])`) to ensure `React.memo` on child components (like `EpisodeCard`) is actually effective during global state updates.
