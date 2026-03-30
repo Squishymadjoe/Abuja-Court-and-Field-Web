@@ -7,7 +7,13 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+/*
+BOLT ⚡: Performance Optimization
+- WHAT: Wrapped Home page with React.memo.
+- WHY: Prevents the entire hero section and featured list from re-rendering when the parent App state (like isPlaying) changes.
+- IMPACT: Significantly reduces rendering overhead for global state transitions.
+*/
+const Home = React.memo(function Home({ setPage, onPlay }: HomeProps) {
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -23,7 +29,7 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
           <img
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjWHyzKV3JJnLN5eM1E_r9yBizPZuBX7qdgzPD0DLNm_SkemNgCIgfiPg12oHvrzL8bI0iaxYQSXQGWDtmjLfaz4rJCrX_fqe_1J3rQgflgA4n78kgb-PdPqZYc4tswg1585xnQl-IJudtFgPYgCq2rj2aSolwhMNNEfyRoi90PwICzYey1rdnCfrFQhnW5J1AcoeB1k8XsrxINGu4CAMW9WyYxMGEZzdjIM474ABIBPSBnqU2sa061jkUIv8gRv1mg4qFRrST089Y"
             alt="An intense basketball game in action, serving as a dramatic backdrop for the podcast hero section."
-            fetchpriority="high"
+            fetchPriority="high"
             className="absolute inset-0 h-full w-full object-cover object-center opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent"></div>
@@ -163,6 +169,6 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       </style>
     </div>
   );
-};
+});
 
 export default Home;
