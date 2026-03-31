@@ -7,7 +7,11 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+/* BOLT ⚡: Performance Optimization
+   - WHAT: Wrapped the Home component in React.memo.
+   - WHY: Prevents Home from re-rendering unless its props (setPage, onPlay) change. Since these props are stabilized in App.tsx, Home will not re-render when the audio player state changes.
+*/
+const Home: React.FC<HomeProps> = React.memo(function Home({ setPage, onPlay }) {
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -163,6 +167,6 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       </style>
     </div>
   );
-};
+});
 
 export default Home;

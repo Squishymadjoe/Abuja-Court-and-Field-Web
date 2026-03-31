@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,20 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  /* BOLT ⚡: Performance Optimization
+     - WHAT: Memoized the handlePlayEpisode callback using useCallback.
+     - WHY: Prevents the function from being re-created on every render, which in turn prevents unnecessary re-renders of child components that receive this callback as a prop (e.g., EpisodeCard, Home, Episodes).
+  */
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /* BOLT ⚡: Performance Optimization
+     - WHAT: Memoized the current page content using useMemo.
+     - WHY: Toggling global state like 'isPlaying' should not cause the entire page tree (Home, Episodes, etc.) to re-render. useMemo ensures the JSX branch for the current page remains stable unless the page itself changes.
+  */
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +40,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, handlePlayEpisode, setCurrentPage]);
 
   return (
     <Layout 
@@ -42,7 +50,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };
