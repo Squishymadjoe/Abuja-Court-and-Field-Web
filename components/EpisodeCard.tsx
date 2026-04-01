@@ -6,6 +6,11 @@ interface EpisodeCardProps {
   onPlay: (episode: Episode) => void;
 }
 
+/* BOLT ⚡: Performance Optimization
+   - WHAT: Wrapped EpisodeCard in React.memo.
+   - WHY: Skips re-rendering this card when parent components re-render unless its props (episode, onPlay) change.
+   - IMPACT: Eliminates redundant renders of every list item when toggling playback state.
+*/
 const EpisodeCard: React.FC<EpisodeCardProps> = React.memo(({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
