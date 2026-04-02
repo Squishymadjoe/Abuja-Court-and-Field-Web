@@ -1,0 +1,3 @@
+## 2025-05-14 - Routing Stabilization for Memoization
+**Learning:** In a Single Page Application (SPA) where the root component handles routing by returning JSX branches (e.g., a switch statement in render), state changes in the root component (like playback state) will cause the entire page tree to re-instantiate. Even if page components are wrapped in `React.memo`, they will still re-render because they are being passed as new element references from the parent.
+**Action:** Use `useMemo` to stabilize the JSX branch returned by the routing logic. This preserves the component instance across parent re-renders, allowing `React.memo` on the page components and their children (like list items) to correctly skip re-rendering when the global state changes.

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-const Contact: React.FC = () => {
+const Contact = memo(function Contact() {
   return (
     <div className="flex-grow flex flex-col justify-center items-center px-4 md:px-10 lg:px-40 py-12 md:py-20 relative min-h-[80vh]">
       {/* Background Elements */}
@@ -92,6 +92,6 @@ const Contact: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Contact;

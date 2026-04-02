@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-const Subscribe: React.FC = () => {
+const Subscribe = memo(function Subscribe() {
   return (
     <div className="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-20">
       <div className="flex flex-col max-w-[960px] w-full flex-1 gap-12">
@@ -98,6 +98,6 @@ const Subscribe: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Subscribe;
