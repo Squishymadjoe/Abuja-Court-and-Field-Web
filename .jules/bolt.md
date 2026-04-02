@@ -1,0 +1,3 @@
+## 2025-05-15 - Episode List Re-render Bottleneck
+**Learning:** In a single-page application (SPA) where global state like audio playback is managed at the root `App` level, every playback toggle causes a re-render of the current page's entire component tree. This happens because the `renderPage()` function returns a fresh JSX element each time, even if the routing hasn't changed.
+**Action:** Stabilize the returned JSX branch using `useMemo` in the router logic and ensure all leaf components (like `EpisodeCard`) are wrapped in `React.memo` while their callbacks (like `onPlay`) are stabilized with `useCallback` in the parent.
