@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { HOSTS } from '../constants';
 
-const About: React.FC = () => {
+const About = memo(function About() {
   return (
     <div className="w-full flex flex-col items-center">
       {/* Hero Section */}
@@ -81,6 +81,6 @@ const About: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default About;
