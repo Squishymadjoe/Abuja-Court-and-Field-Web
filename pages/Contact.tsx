@@ -1,6 +1,11 @@
 import React from 'react';
 
-const Contact: React.FC = () => {
+/* BOLT ⚡: Performance Optimization
+   - WHAT: Wrapped Contact page with React.memo.
+   - WHY: This page contains a static form. It should only render once
+          when navigated to.
+*/
+const Contact: React.FC = React.memo(function Contact() {
   return (
     <div className="flex-grow flex flex-col justify-center items-center px-4 md:px-10 lg:px-40 py-12 md:py-20 relative min-h-[80vh]">
       {/* Background Elements */}
@@ -92,6 +97,6 @@ const Contact: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Contact;

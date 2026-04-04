@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -8,16 +8,30 @@ import Subscribe from './pages/Subscribe';
 import { Page, Episode } from './types';
 
 const App: React.FC = () => {
+  console.log('App RENDER');
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  /* BOLT ⚡: Performance Optimization
+     - WHAT: Memoized the handlePlayEpisode callback with useCallback.
+     - WHY: This prevents the function reference from changing on every App render,
+            allowing child components (Home, Episodes) wrapped in React.memo to skip re-renders
+            when global states like isPlaying change.
+  */
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /* BOLT ⚡: Performance Optimization
+     - WHAT: Memoized the page component branch using useMemo.
+     - WHY: Without this, every change in App (like isPlaying) triggers a re-execution
+            of renderPage(), returning a new JSX element tree. Even if page components
+            are memoized, React treats the new element reference as a change,
+            causing the entire page branch to re-render.
+  */
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +46,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +56,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };

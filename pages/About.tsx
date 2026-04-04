@@ -1,7 +1,12 @@
 import React from 'react';
 import { HOSTS } from '../constants';
 
-const About: React.FC = () => {
+/* BOLT ⚡: Performance Optimization
+   - WHAT: Wrapped About page with React.memo.
+   - WHY: This is a purely static content page. Memoizing it prevents any
+          re-renders unless the navigation state changes.
+*/
+const About: React.FC = React.memo(function About() {
   return (
     <div className="w-full flex flex-col items-center">
       {/* Hero Section */}
@@ -81,6 +86,6 @@ const About: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default About;
