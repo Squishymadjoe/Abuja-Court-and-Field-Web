@@ -8,7 +8,6 @@ import Subscribe from './pages/Subscribe';
 import { Page, Episode } from './types';
 
 const App: React.FC = () => {
-  console.log('App RENDER');
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);

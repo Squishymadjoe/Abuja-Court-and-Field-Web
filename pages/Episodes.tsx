@@ -13,7 +13,6 @@ interface EpisodesProps {
           unnecessarily when parent App state (e.g., isPlaying) changes.
 */
 const Episodes: React.FC<EpisodesProps> = React.memo(function Episodes({ onPlay }) {
-  console.log('Episodes RENDER');
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Page Title Area */}
