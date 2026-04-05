@@ -1,0 +1,3 @@
+## 2025-05-15 - Stabilizing routing JSX branch
+**Learning:** In this SPA architecture, wrapping page components with `React.memo` is insufficient if the parent's routing logic (`renderPage`) returns a fresh JSX tree on every state change. Even with stable props, React treats the new element reference as a full re-instantiation, bypassing memoization in children.
+**Action:** Use `useMemo` to stabilize the returned JSX branch from the router function. This ensures that only state changes relevant to the page itself (like `currentPage`) trigger a new element creation, allowing `React.memo` on child components to work correctly during unrelated global state updates (like `isPlaying`).
