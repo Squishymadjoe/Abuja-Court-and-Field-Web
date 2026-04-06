@@ -1,0 +1,3 @@
+## 2025-05-15 - Redundant re-renders in Episode List
+**Learning:** In a React 19 SPA, state changes in the root `App` component (like toggling an audio player's `isPlaying` state) cause the entire route's component tree to re-render. This happens because the routing logic in `App.tsx` (a `renderPage` function returning JSX) is called on every render, and without memoization, it returns new component instances. This bypasses `React.memo` on the page components themselves.
+**Action:** Use `useMemo` to stabilize the JSX returned by the routing logic and combine it with `useCallback` for passed-down handlers and `React.memo` for the page and list item components.
