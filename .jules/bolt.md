@@ -1,0 +1,3 @@
+## 2024-03-24 - [Unnecessary EpisodeCard Re-renders]
+**Learning:** Toggling playback state in the root App component caused the entire page component tree to re-instantiate, bypassing React.memo on child components like EpisodeCard. This happened because the routing function `renderPage` returned new JSX elements on every render.
+**Action:** Use `useMemo` to stabilize the JSX branch returned by routing logic, ensuring that component references remain stable across parent state changes. combined with `useCallback` for event handlers and `React.memo` for expensive list items.
