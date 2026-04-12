@@ -1,0 +1,3 @@
+## 2025-01-24 - Efficient State Isolation in Root Components
+**Learning:** In a React 19 application with global state (like an audio player) at the root level, updating that state triggers a full re-render of the entire component tree. Even if child pages are wrapped in `React.memo`, they will re-render if the JSX elements are recreated in the parent's render function.
+**Action:** Use `useMemo` to stabilize the "active page" JSX branch in the root component, combined with `useCallback` for event handlers and `React.memo` for leaf components (like list items). This three-pronged approach ensures that a global state change (e.g., `isPlaying`) only re-renders the root and the player UI, completely bypassing the expensive page and list rendering.
