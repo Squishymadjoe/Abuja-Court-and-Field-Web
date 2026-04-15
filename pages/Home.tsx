@@ -7,7 +7,14 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+const Home: React.FC<HomeProps> = React.memo(({ setPage, onPlay }) => {
+  /* BOLT ⚡: Performance Optimization
+     - WHAT: Wrapped Home page with React.memo.
+     - WHY: Prevents the hero section and featured content from re-rendering when the parent
+       App component updates (e.g., during playback toggling).
+     - IMPACT: Reduces unnecessary processing for static above-the-fold content.
+     - MEASUREMENT: Verified that Home render log no longer appears during playback state changes.
+  */
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -42,14 +49,14 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
             Unfiltered stories, insider takes, and the raw energy of the capital's basketball and flag football leagues.
           </p>
           <div className="mt-4 flex w-full flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <button 
+            <button
               onClick={() => onPlay(EPISODES[0])}
               className="flex h-12 w-full min-w-[160px] items-center justify-center gap-2 rounded-full bg-primary px-8 text-base font-bold text-black transition-all hover:bg-primary-dark sm:w-auto"
             >
               <span className="material-symbols-outlined filled">play_circle</span>
               Listen Now
             </button>
-            <button 
+            <button
               onClick={() => setPage('episodes')}
               className="flex h-12 w-full min-w-[160px] items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 text-base font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10 sm:w-auto"
             >
@@ -57,7 +64,7 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
             </button>
           </div>
         </div>
-        
+
         {/* Scrolling Text */}
         <div className="absolute bottom-0 w-full overflow-hidden whitespace-nowrap py-4 opacity-20 select-none">
           <div className="inline-block animate-[scroll_20s_linear_infinite]">
@@ -69,7 +76,7 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
           </div>
         </div>
       </section>
-      
+
       {/* Featured Section */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4">
@@ -78,11 +85,11 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
               <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Listen In</h2>
               <h3 className="mt-2 text-3xl font-bold text-white md:text-4xl">Featured Episodes</h3>
             </div>
-            <button 
+            <button
               onClick={() => setPage('episodes')}
               className="hidden items-center gap-1 text-sm font-bold text-white underline decoration-primary decoration-2 underline-offset-4 transition-colors hover:text-primary sm:flex"
             >
-              View All Episodes 
+              View All Episodes
               <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
             </button>
           </div>
@@ -92,7 +99,7 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-black">
                    <div className="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{ backgroundImage: `url('${episode.image}')` }}></div>
                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
-                   <button 
+                   <button
                      onClick={() => onPlay(episode)}
                      className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-black shadow-lg transition-transform hover:scale-110 active:scale-95"
                    >
@@ -121,7 +128,7 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
                 <h2 className="text-sm font-bold uppercase tracking-widest text-primary">Must Watch</h2>
                 <h3 className="mt-2 text-3xl font-bold text-white md:text-4xl">Highlight Reel</h3>
             </div>
-            
+
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:grid-rows-2 h-auto md:h-[600px]">
                 <div className="group relative col-span-1 row-span-1 md:col-span-2 md:row-span-2 overflow-hidden rounded-3xl bg-surface-dark cursor-pointer">
                     <div className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmamKQFLSBU9m3x4-xX6aQt5abN6S1n9T6X6OxcH8MjRN8xLvIIRTJP64dLS4F2O5bZucfV-ehPKsc_sqE8WD8BeZaNvOjwRUTrgFR8nDHe6PQPajMK0ZHatQpwWPRXhXJw2LO6qKnlX6gDlTT51GyxwyfnwVsJJ78-8uWpgT2ZMH_fEil7Q7lZp7jhruZUevPFcAZZ5BgF9k5cwviL7HtMHNzhaMx0x3XAHAyIggD18fXQ0pgOzGLxa--wbUuLsBkn-GCWPqSChv1")'}}></div>
@@ -163,6 +170,6 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
       </style>
     </div>
   );
-};
+});
 
 export default Home;

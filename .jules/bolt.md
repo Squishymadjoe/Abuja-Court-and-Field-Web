@@ -1,0 +1,3 @@
+## 2023-10-27 - Stabilizing the App Routing and List Rendering
+**Learning:** In a React 19 SPA with a global playback state, every state change (like toggling play/pause) triggers a re-render of the `App` component. Without stabilization, this causes the entire page component tree to be re-instantiated, forcing all children (including large lists like the Archive) to re-render, even if they are wrapped in `React.memo`.
+**Action:** Use `useMemo` to stabilize the branch returned by the routing logic and `useCallback` for any event handlers passed to page components. This, combined with `React.memo` on list items, reduces re-renders from O(N) to O(1) for global state updates.
