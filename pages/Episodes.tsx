@@ -7,7 +7,13 @@ interface EpisodesProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
+const Episodes: React.FC<EpisodesProps> = React.memo(({ onPlay }) => {
+  /* BOLT ⚡: Performance Optimization
+     - WHAT: Wrapped Episodes page in React.memo.
+     - WHY: This prevents the entire Episodes grid from re-evaluating when the App re-renders due to playback state changes, provided the onPlay prop remains stable.
+     - IMPACT: Complements useMemo in App.tsx to ensure the page branch is completely stable.
+     - MEASUREMENT: Verified using console logs and Playwright script.
+  */
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Page Title Area */}
@@ -82,6 +88,6 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Episodes;
