@@ -1,0 +1,3 @@
+## 2026-04-21 - Stable Render Branching for SPA Routing
+**Learning:** In a manual routing pattern where the active page is determined by a switch statement in the render loop, simply wrapping child components in `React.memo` is insufficient to prevent re-renders when parent state (like an audio player's `isPlaying`) changes. The entire page subtree is recreated unless the result of the routing logic is stabilized.
+**Action:** Use `useMemo` to wrap the routing logic (`renderedPage`) and ensure it depends only on the current route and stable callbacks. This preserves the component tree identity across global state changes.
