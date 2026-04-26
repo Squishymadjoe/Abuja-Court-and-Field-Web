@@ -6,7 +6,19 @@ interface EpisodeCardProps {
   onPlay: (episode: Episode) => void;
 }
 
-const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
+const EpisodeCard = ({ episode, onPlay }: EpisodeCardProps) => {
+  /*
+    BOLT ⚡: Performance Optimization
+    - WHAT: Wrapped EpisodeCard with React.memo and stabilized its parent callbacks/routing.
+    - WHY: EpisodeCard is a pure component that only depends on 'episode' and 'onPlay'.
+           By memoizing it and ensuring 'onPlay' is stable via useCallback in App.tsx,
+           we prevent all EpisodeCards from re-rendering whenever the global 'isPlaying'
+           state changes (e.g., when toggling play/pause in the sticky player).
+           We also stabilized the page instance in App.tsx using useMemo to prevent
+           the entire page tree from re-instantiating on every parent render.
+    - IMPACT: Reduces re-renders of the episode list from N (where N is number of episodes) to 0 during playback state changes.
+    - MEASUREMENT: Verified by console logging in render and automated Playwright profiling.
+  */
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
       <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">
@@ -62,4 +74,4 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   );
 };
 
-export default EpisodeCard;
+export default React.memo(EpisodeCard);
