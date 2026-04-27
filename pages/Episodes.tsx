@@ -84,4 +84,4 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
   );
 };
 
-export default Episodes;
+export default React.memo(Episodes);

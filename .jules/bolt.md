@@ -1,0 +1,3 @@
+## 2026-04-12 - Synchronized Memoization for List Items
+**Learning:** In a manual routing architecture (switch statement in render), preventing child list re-renders during global state changes (like an audio player toggling) requires a three-part synchronization: stabilizing parent callbacks with `useCallback`, memoizing the routing branch with `useMemo` to keep component instances stable, and wrapping the leaf items in `React.memo`. Missing any of these steps allows the render to "leak" down the tree.
+**Action:** Always verify the stability of the entire path from the state-holding component down to the target leaf component when optimizing re-renders.
