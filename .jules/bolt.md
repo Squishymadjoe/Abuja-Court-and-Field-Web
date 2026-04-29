@@ -1,3 +1,3 @@
-## 2026-04-12 - Manual Routing & Render Leaks
+## 2026-04-29 - Manual Routing & Render Leaks
 **Learning:** In this SPA architecture, the manual routing via a `switch` statement in `App.tsx` was a major "render leak". Because the function returned a new JSX element on every call, the entire page component tree was being re-instantiated whenever `App` state changed (e.g., toggling `isPlaying`). This rendered `React.memo` on children like `EpisodeCard` ineffective because their parent page was always "new".
 **Action:** When encountering manual routing patterns, wrap the routing logic in `useMemo` to stabilize the page instance. This ensures that only state changes relevant to the page itself trigger reconciliation, allowing memoization in child components to function as intended.
