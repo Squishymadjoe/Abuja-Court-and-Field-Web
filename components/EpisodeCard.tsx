@@ -6,7 +6,16 @@ interface EpisodeCardProps {
   onPlay: (episode: Episode) => void;
 }
 
-const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
+/**
+ * BOLT ⚡: Performance Optimization
+ * - WHAT: Wrapped EpisodeCard in React.memo().
+ * - WHY: This component is rendered many times in the archive list. Memoizing it
+ *   prevents unnecessary re-renders when the parent (Episodes) re-renders due
+ *   to unrelated state changes (like global audio player updates).
+ * - IMPACT: Combined with stable callbacks in App.tsx, this reduces re-renders
+ *   of the entire episode list to zero when toggling play/pause.
+ */
+const EpisodeCard: React.FC<EpisodeCardProps> = React.memo(({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
       <div className="aspect-video w-full overflow-hidden bg-[#204b20] relative">
@@ -60,6 +69,6 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
       </div>
     </article>
   );
-};
+});
 
 export default EpisodeCard;
