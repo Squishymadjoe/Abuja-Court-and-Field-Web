@@ -7,7 +7,14 @@ interface EpisodesProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
+/**
+ * BOLT ⚡: Performance Optimization
+ * - WHAT: Wrapped Episodes page with React.memo.
+ * - WHY: Prevents the entire archive page from re-rendering if App state changes,
+ *   as long as props (onPlay) remain stable.
+ * - IMPACT: Avoids reconciliation of the large grid and sticky filter bar.
+ */
+const Episodes: React.FC<EpisodesProps> = React.memo(({ onPlay }) => {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Page Title Area */}
@@ -82,6 +89,6 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Episodes;
