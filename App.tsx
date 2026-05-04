@@ -36,7 +36,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  }, [currentPage, handlePlayEpisode]);
+  }, [currentPage, handlePlayEpisode, currentEpisode]);
 
   return (
     <Layout 
