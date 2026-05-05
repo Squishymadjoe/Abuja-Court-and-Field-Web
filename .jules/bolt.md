@@ -1,0 +1,3 @@
+## 2026-04-12 - [Render Leak Prevention]
+**Learning:** Manual routing via `switch` statements in React is a 'render leak' anti-pattern because it causes page components to be re-instantiated (creating new DOM nodes) on every parent render unless the switch statement result is wrapped in `useMemo`. This breaks `React.memo` optimizations in child components (like `EpisodeCard`) because their parent is always a "new" component.
+**Action:** Always wrap the result of manual routing `switch` statements in `useMemo` and stabilize callbacks with `useCallback` to ensure memoization chains remain intact.
