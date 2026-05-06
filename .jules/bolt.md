@@ -1,0 +1,7 @@
+## 2026-05-21 - [Stabilizing Render Leaks in Manual Routing]
+**Learning:** In applications using manual routing (switch statements in render), the entire page component is re-instantiated on every parent render. This "render leak" breaks `React.memo` optimizations in child components (like list items) because they are unmounted/remounted or their parent is a fresh instance.
+**Action:** Always wrap manual routing logic in `useMemo` and stabilize parent callbacks with `useCallback`. This ensures that only state changes relevant to the page content trigger a re-render, allowing `React.memo` on child components to effectively skip updates during irrelevant state changes (e.g., playback toggle, volume adjustment).
+
+## 2026-05-21 - [Vite Importmaps and Entry Points]
+**Learning:** This repository uses an ESM importmap in `index.html` for dependency resolution but lacks a standard `<script type="module">` entry point for the main application logic in the source `index.html`. This causes the dev server to serve an empty root unless a script tag is manually added or injected.
+**Action:** When profiling in this environment, ensure the entry point (e.g., `/index.tsx`) is correctly linked in `index.html` during the profiling session, but remember to revert this change before PR submission as it may interfere with the production build/deployment strategy which might use a different injection method.
