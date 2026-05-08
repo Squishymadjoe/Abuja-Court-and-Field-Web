@@ -1,0 +1,3 @@
+## 2026-05-18 - [Render Leak via Switch Statement]
+**Learning:** Manual routing using a `switch` statement in the component body causes the entire page component tree to be re-evaluated on every parent render. This "render leak" happens because the `switch` returns new JSX elements each time. Even if child components are wrapped in `React.memo`, they will still re-render if the parent doesn't stabilize the page-level component or the callbacks passed to it.
+**Action:** Stabilize the routing logic by wrapping the `switch` statement in `useMemo` and ensuring all callbacks passed to page components are wrapped in `useCallback`.
