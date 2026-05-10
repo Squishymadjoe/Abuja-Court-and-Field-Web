@@ -6,6 +6,15 @@ interface EpisodeCardProps {
   onPlay: (episode: Episode) => void;
 }
 
+/**
+ * BOLT ⚡: Performance Optimization
+ * - WHAT: Wrapped EpisodeCard in React.memo().
+ * - WHY: In the Archive list, multiple EpisodeCards are rendered. Without memoization,
+ *        every card would re-render if the parent (Episodes page) re-renders, even if
+ *        the individual card's props haven't changed.
+ * - IMPACT: When combined with stabilized callbacks in App.tsx, this reduces re-renders
+ *           for the episode list from 6 per playback toggle to 0.
+ */
 const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-surface-dark border border-white/5 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_0_30px_-10px_rgba(0,255,0,0.2)]">
@@ -62,4 +71,4 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   );
 };
 
-export default EpisodeCard;
+export default React.memo(EpisodeCard);
