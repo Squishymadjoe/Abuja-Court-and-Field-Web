@@ -1,0 +1,3 @@
+## 2026-05-21 - [Preventing Render Leaks in Manual Routing]
+**Learning:** In SPAs using manual routing (switch statements in App.tsx), parent state changes (like playback toggles) cause the entire page component to re-render. This happens because the switch statement executes on every render, creating a new component instance even if the props for that component haven't changed. This breaks `React.memo` optimizations for child components because they are unmounted and remounted (or at least their parent is re-instantiated).
+**Action:** Seal the render leak by stabilizing the routing output with `useMemo` and ensuring parent callbacks are stabilized with `useCallback`. This allows `React.memo` on child components to finally take effect.
