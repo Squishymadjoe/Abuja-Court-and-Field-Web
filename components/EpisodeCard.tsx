@@ -62,4 +62,4 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   );
 };
 
-export default EpisodeCard;
+export default React.memo(EpisodeCard);
