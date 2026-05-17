@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,25 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  /**
+   * BOLT ⚡: Performance Optimization
+   * - WHAT: Wrapped handlePlayEpisode in useCallback.
+   * - WHY: Prevents the onPlay prop from changing on every App render,
+   *   which is essential for React.memo in EpisodeCard to work correctly.
+   */
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /**
+   * BOLT ⚡: Performance Optimization
+   * - WHAT: Memoized the rendered page component.
+   * - WHY: Prevents the entire page (e.g., Episodes list) from being re-instantiated
+   *   when global player state (isPlaying, currentEpisode) changes.
+   * - IMPACT: Dramatically reduces re-renders in deep component trees when playback is toggled.
+   */
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +45,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +55,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };
