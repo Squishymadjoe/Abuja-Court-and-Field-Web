@@ -62,4 +62,9 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   );
 };
 
-export default EpisodeCard;
+// BOLT ⚡: Performance Optimization
+// - WHAT: Wrapped EpisodeCard in React.memo.
+// - WHY: Since this component is often rendered in a long list (archive),
+//   memoizing it prevents redundant re-renders when other parts of the application
+//   state change but the episode data remains identical.
+export default React.memo(EpisodeCard);
