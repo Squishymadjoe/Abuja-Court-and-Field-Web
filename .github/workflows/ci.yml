@@ -24,5 +24,6 @@ jobs:
 
     - name: Build
       run: |
-        npx pnpm install
+        npx pnpm install --no-frozen-lockfile
+        npx pnpm approve-builds esbuild
         npx pnpm run build
