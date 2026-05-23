@@ -22,8 +22,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
     - name: Build
       run: |
-        npx pnpm install --no-frozen-lockfile
-        npx pnpm approve-builds esbuild
-        npx pnpm run build
+        pnpm install --no-frozen-lockfile --config.only-allow-trusted-dependencies=false
+        pnpm run build
