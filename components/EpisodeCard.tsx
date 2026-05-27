@@ -62,4 +62,10 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   );
 };
 
-export default EpisodeCard;
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped EpisodeCard in React.memo.
+  - WHY: Combined with stable parent callbacks (via useCallback), this prevents re-rendering of all episode cards when the global player state (isPlaying) changes.
+  - IMPACT: Reduces re-renders of the episode list from N to 0 during playback toggles.
+*/
+export default React.memo(EpisodeCard);
