@@ -9,9 +9,9 @@ interface EpisodeCardProps {
 const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   /*
     BOLT ⚡: Performance Optimization
-    - WHAT: Wrapped EpisodeCard in React.memo and added a debug console.log.
+    - WHAT: Wrapped EpisodeCard in React.memo.
     - WHY: Prevents re-renders of individual episode cards when the parent list renders
-      but this specific card's data hasn't changed. The console.log is used for profiling.
+      but this specific card's data hasn't changed.
     - IMPACT: Reduces re-render count from 12 to 0 when toggling playback (when combined
       with useCallback/useMemo in App.tsx).
   */
