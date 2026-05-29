@@ -1,0 +1,3 @@
+## 2026-05-29 - Fixing Manual Routing Render Leaks
+**Learning:** Manual routing via `switch` statements in the render body is a 'render leak' anti-pattern. It causes page components to be re-instantiated on every parent render (even if they return the same JSX), which in turn breaks `React.memo` optimizations in child components because they receive new callback references (if not stabilized) or simply because the entire tree is replaced.
+**Action:** Always apply the 'Three-Part Synchronization': stabilize parent callbacks with `useCallback`, wrap the router output in `useMemo` (excluding global playback state), and wrap child components in `React.memo`.
