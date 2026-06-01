@@ -165,4 +165,4 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
   );
 };
 
-export default Home;
+export default React.memo(Home);
