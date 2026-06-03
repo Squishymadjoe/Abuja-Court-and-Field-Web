@@ -1,0 +1,3 @@
+## 2026-05-22 - [Manual Routing Render Leaks]
+**Learning:** Manual routing using switch-case statements in a parent component (like App.tsx) causes the entire page tree to re-instantiate on every parent render. This "render leak" invalidates React.memo optimizations in child components because the component references change every time the switch block executes.
+**Action:** Always wrap the output of a manual router in `useMemo`, keyed by the current page state and any stable callbacks, to preserve component instances across parent re-renders. Combine this with `useCallback` for parent callbacks and `React.memo` for list items for a complete "three-part synchronization" that reduces re-renders to zero for stable items.
