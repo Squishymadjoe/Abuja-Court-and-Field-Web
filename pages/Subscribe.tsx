@@ -100,4 +100,9 @@ const Subscribe: React.FC = () => {
   );
 };
 
-export default Subscribe;
+/**
+ * BOLT ⚡: Performance Optimization
+ * - WHAT: Wrapped Subscribe page in React.memo.
+ * - WHY: Prevents re-rendering the subscribe page when global state changes.
+ */
+export default React.memo(Subscribe);
