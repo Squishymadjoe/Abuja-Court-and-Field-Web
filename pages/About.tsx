@@ -83,4 +83,9 @@ const About: React.FC = () => {
   );
 };
 
-export default About;
+/**
+ * BOLT ⚡: Performance Optimization
+ * - WHAT: Wrapped About page in React.memo.
+ * - WHY: Prevents re-rendering the about page when global state changes.
+ */
+export default React.memo(About);

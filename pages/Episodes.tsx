@@ -84,4 +84,10 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
   );
 };
 
-export default Episodes;
+/**
+ * BOLT ⚡: Performance Optimization
+ * - WHAT: Wrapped Episodes page in React.memo.
+ * - WHY: Prevents the entire episode list from being re-rendered when App re-renders
+ *        due to playback state changes.
+ */
+export default React.memo(Episodes);

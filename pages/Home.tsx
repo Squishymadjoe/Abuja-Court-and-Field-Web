@@ -165,4 +165,10 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
   );
 };
 
-export default Home;
+/**
+ * BOLT ⚡: Performance Optimization
+ * - WHAT: Wrapped Home page in React.memo.
+ * - WHY: Prevents expensive re-renders of the hero section and featured list
+ *        when global state (like current playback) changes.
+ */
+export default React.memo(Home);

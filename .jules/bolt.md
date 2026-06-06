@@ -1,0 +1,3 @@
+## 2026-05-18 - [Render Leaks in Manual Routing]
+**Learning:** Manual routing using switch statements in a parent component causes child components to be re-instantiated on every parent render, even if the switch result is logically the same. This "render leak" breaks `React.memo` optimizations in child components because they receive a fresh instance of the page component.
+**Action:** Always wrap the result of a manual routing switch in `useMemo`, depending only on the route state and stable callbacks. This preserves the component instance across parent re-renders and enables effective memoization in the child tree.
