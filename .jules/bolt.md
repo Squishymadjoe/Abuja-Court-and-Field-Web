@@ -1,0 +1,3 @@
+## 2026-06-08 - Router Memoization and Render Leaks
+**Learning:** Manual switch-case routing in React is a "render leak" anti-pattern. When the parent component (e.g., `App.tsx`) re-renders due to global state changes (like audio playback), the router re-evaluates and returns a new component instance, causing the entire page tree to re-mount or re-render even if child components are wrapped in `React.memo`.
+**Action:** Always wrap the manual routing logic in `useMemo` (keyed to the current route/page state) and ensure child page components are memoized. This ensures the component tree is only re-instantiated when the route actually changes, isolating it from unrelated global state updates.
