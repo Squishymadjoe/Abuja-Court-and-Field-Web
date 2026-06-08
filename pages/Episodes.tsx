@@ -8,6 +8,7 @@ interface EpisodesProps {
 }
 
 const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
+  console.log('RENDER: Episodes');
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Page Title Area */}
@@ -84,4 +85,4 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
   );
 };
 
-export default Episodes;
+export default React.memo(Episodes);
