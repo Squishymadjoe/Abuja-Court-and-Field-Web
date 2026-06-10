@@ -18,6 +18,7 @@ const Layout: React.FC<LayoutProps> = ({
   isPlaying,
   setIsPlaying
 }) => {
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
