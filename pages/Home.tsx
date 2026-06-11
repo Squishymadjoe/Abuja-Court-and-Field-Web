@@ -7,7 +7,11 @@ interface HomeProps {
   onPlay: (episode: Episode) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
+// BOLT ⚡: Performance Optimization
+// - WHAT: Memoized the Home page component using React.memo.
+// - WHY: Prevents the entire Home page from re-rendering when App's state updates
+//   (like audio playback), as long as its props remain stable.
+const HomeComponent: React.FC<HomeProps> = ({ setPage, onPlay }) => {
   return (
     <div className="relative flex w-full flex-col">
       {/* Hero Section */}
@@ -165,4 +169,5 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
   );
 };
 
+const Home = React.memo(HomeComponent);
 export default Home;
