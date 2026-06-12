@@ -17,6 +17,13 @@ const App: React.FC = () => {
     setIsPlaying(true);
   }, []);
 
+  /**
+   * BOLT ⚡: Performance Optimization
+   * - WHAT: Memoized the manual routing result.
+   * - WHY: Prevents the entire page branch from re-rendering when global states (like isPlaying)
+   *   change, as long as the currentPage and callbacks remain stable.
+   * - IMPACT: Eliminates unnecessary reconciliation of the entire page tree.
+   */
   const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
