@@ -1,0 +1,3 @@
+## 2026-05-22 - [The Three-Part Synchronization for Manual Routing]
+**Learning:** Manual switch-case routing in React (e.g., `renderPage()`) creates 'render leaks' where updating a global state (like a media player's `isPlaying`) triggers a full re-render of the entire page branch, even if the page content is static.
+**Action:** Apply the 'Three-Part Synchronization': 1. Stabilize parent callbacks with `useCallback`. 2. Wrap the router output in `useMemo` (keyed on the current route and stable dependencies). 3. Wrap leaf components (like cards or entire pages) in `React.memo` to block the propagation of re-renders.
