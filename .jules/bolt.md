@@ -1,0 +1,3 @@
+## 2026-05-18 - [Render Leaks in Manual Routing]
+**Learning:** In applications using manual switch-case routing (without a router library), updates to global state (like a media player's play/pause status) can trigger unnecessary re-renders of the entire page tree. This occurs because the routing function is called on every parent render, creating new component elements.
+**Action:** Apply the 'Three-Part Synchronization' strategy: 1) stabilize parent callbacks with `useCallback`, 2) wrap the router's output in `useMemo` (dependency: current page), and 3) wrap page-level components in `React.memo`.
