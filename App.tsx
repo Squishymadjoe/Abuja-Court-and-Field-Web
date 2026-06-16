@@ -12,12 +12,18 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  /*
+    BOLT ⚡: Performance Optimization
+    - WHAT: Stabilized the handlePlayEpisode callback with useCallback and memoized the active page component with useMemo.
+    - WHY: In this manual routing setup, state changes in App.tsx (like isPlaying) would normally trigger a full re-render of the entire component tree. By memoizing the rendered page and stabilizing callbacks, we ensure that page components only re-render when the actual page changes, not when the global audio player state updates.
+    - IMPACT: Eliminates unnecessary re-renders of expensive page components during playback interactions, improving UI responsiveness.
+  */
+  const handlePlayEpisode = React.useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  const renderedPage = React.useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +38,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +48,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };

@@ -100,4 +100,4 @@ const Subscribe: React.FC = () => {
   );
 };
 
-export default Subscribe;
+export default React.memo(Subscribe);
