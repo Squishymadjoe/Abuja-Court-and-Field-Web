@@ -62,4 +62,10 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   );
 };
 
-export default EpisodeCard;
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped EpisodeCard in React.memo.
+  - WHY: Episodes page can contain many cards. Memoizing them prevents all cards from re-rendering when only one starts playing or when parent state changes.
+  - IMPACT: Reduces re-render overhead in the episode archive.
+*/
+export default React.memo(EpisodeCard);

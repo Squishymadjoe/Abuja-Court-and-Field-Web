@@ -84,4 +84,10 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
   );
 };
 
-export default Episodes;
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped Episodes component in React.memo.
+  - WHY: Episodes renders a long list of EpisodeCard components.
+  - IMPACT: Prevents expensive list re-rendering when parent state changes.
+*/
+export default React.memo(Episodes);

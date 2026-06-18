@@ -94,4 +94,10 @@ const Contact: React.FC = () => {
   );
 };
 
-export default Contact;
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped Contact component in React.memo.
+  - WHY: Contact page is largely static.
+  - IMPACT: Ensures it only renders once.
+*/
+export default React.memo(Contact);

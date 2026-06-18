@@ -165,4 +165,10 @@ const Home: React.FC<HomeProps> = ({ setPage, onPlay }) => {
   );
 };
 
-export default Home;
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped Home component in React.memo.
+  - WHY: Home is a large component with many sub-sections. It only needs to re-render if setPage or onPlay change.
+  - IMPACT: Skips re-rendering of the entire home page when the parent (App) re-renders for unrelated reasons (like playback state changes).
+*/
+export default React.memo(Home);

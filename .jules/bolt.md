@@ -1,0 +1,3 @@
+## 2025-05-14 - Prevent Unnecessary Page Re-renders on Playback State Changes
+**Learning:** In applications using manual switch-case routing within the main `App` component, global state changes (like audio playback status) trigger full-page re-renders. This occurs because the routing logic and the page component instances are recreated on every parent state update.
+**Action:** Apply 'Three-Part Synchronization' to stabilize routing: 1) Memoize navigation/event callbacks with `useCallback`. 2) Memoize the routing `switch` statement result with `useMemo` (excluding the volatile state). 3) Wrap page-level components in `React.memo` to ensure they only re-render on relevant prop changes.
