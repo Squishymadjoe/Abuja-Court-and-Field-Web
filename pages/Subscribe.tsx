@@ -100,4 +100,10 @@ const Subscribe: React.FC = () => {
   );
 };
 
-export default Subscribe;
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped Subscribe component in React.memo.
+  - WHY: Subscribe page is largely static.
+  - IMPACT: Ensures it only renders once.
+*/
+export default React.memo(Subscribe);

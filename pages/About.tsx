@@ -83,4 +83,10 @@ const About: React.FC = () => {
   );
 };
 
-export default About;
+/*
+  BOLT ⚡: Performance Optimization
+  - WHAT: Wrapped About component in React.memo.
+  - WHY: About is a static page that doesn't depend on any props currently.
+  - IMPACT: Ensures it only renders once.
+*/
+export default React.memo(About);
