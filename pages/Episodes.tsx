@@ -84,4 +84,6 @@ const Episodes: React.FC<EpisodesProps> = ({ onPlay }) => {
   );
 };
 
-export default Episodes;
+// BOLT ⚡: Memoize the page component to prevent re-renders when the parent App
+// re-renders due to unrelated state changes (like global player state).
+export default React.memo(Episodes);
