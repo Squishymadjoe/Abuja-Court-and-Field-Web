@@ -94,4 +94,4 @@ const Contact: React.FC = () => {
   );
 };
 
-export default Contact;
+export default React.memo(Contact);
