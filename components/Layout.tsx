@@ -10,7 +10,7 @@ interface LayoutProps {
   setIsPlaying: (playing: boolean) => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ 
+const Layout: React.FC<LayoutProps> = React.memo(({
   currentPage, 
   setCurrentPage, 
   children,
@@ -182,6 +182,6 @@ const Layout: React.FC<LayoutProps> = ({
       )}
     </div>
   );
-};
+});
 
 export default Layout;
