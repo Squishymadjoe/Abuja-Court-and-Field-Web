@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Subscribe: React.FC = () => {
+// BOLT ⚡: Memoized Subscribe component to prevent unnecessary re-renders when parent state (like playback) changes
+const Subscribe: React.FC = React.memo(() => {
   return (
     <div className="flex-grow flex flex-col items-center justify-center px-4 py-12 md:py-20">
       <div className="flex flex-col max-w-[960px] w-full flex-1 gap-12">
@@ -98,6 +99,6 @@ const Subscribe: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Subscribe;

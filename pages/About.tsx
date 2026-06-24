@@ -1,7 +1,8 @@
 import React from 'react';
 import { HOSTS } from '../constants';
 
-const About: React.FC = () => {
+// BOLT ⚡: Memoized About component to prevent unnecessary re-renders when parent state (like playback) changes
+const About: React.FC = React.memo(() => {
   return (
     <div className="w-full flex flex-col items-center">
       {/* Hero Section */}
@@ -81,6 +82,6 @@ const About: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default About;

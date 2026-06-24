@@ -1,0 +1,3 @@
+## 2025-06-24 - [Render Leaks in Manual Routing]
+**Learning:** Manual switch-case routing in a root component (App.tsx) causes the entire active page component tree to re-instantiate on every parent state change (e.g., playback toggling). This happens because the routing function returns new JSX elements each time, even if the target component is the same.
+**Action:** Apply 'Three-Part Synchronization': stabilize parent callbacks with `useCallback`, wrap the router output in `useMemo` (dependency array should include page state and stable callbacks, but exclude volatile playback state), and wrap child components in `React.memo`.

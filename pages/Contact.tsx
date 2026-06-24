@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Contact: React.FC = () => {
+// BOLT ⚡: Memoized Contact component to prevent unnecessary re-renders when parent state (like playback) changes
+const Contact: React.FC = React.memo(() => {
   return (
     <div className="flex-grow flex flex-col justify-center items-center px-4 md:px-10 lg:px-40 py-12 md:py-20 relative min-h-[80vh]">
       {/* Background Elements */}
@@ -92,6 +93,6 @@ const Contact: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Contact;
