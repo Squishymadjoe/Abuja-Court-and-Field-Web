@@ -10,7 +10,8 @@ interface LayoutProps {
   setIsPlaying: (playing: boolean) => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ 
+// BOLT ⚡: Memoized Layout component. It still re-renders on playback state changes, but it's important to memoize to provide a stable context for children where possible
+const Layout: React.FC<LayoutProps> = React.memo(({
   currentPage, 
   setCurrentPage, 
   children,
@@ -182,6 +183,6 @@ const Layout: React.FC<LayoutProps> = ({
       )}
     </div>
   );
-};
+});
 
 export default Layout;
