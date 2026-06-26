@@ -1,0 +1,3 @@
+## 2025-05-15 - Three-Part Memoization for Manual Routing
+**Learning:** Manual switch-case routing in a root component causes the entire active page subtree to re-instantiate on every parent state update (e.g., audio playback). Even with React 19, if the parent re-renders due to local state, it generates new element objects unless explicitly memoized.
+**Action:** Apply a "Three-Part Synchronization" strategy: 1) Memoize callbacks with `useCallback`, 2) Memoize the routing result with `useMemo`, and 3) Wrap child components in `React.memo` to ensure absolute referential stability and skip reconciliation.

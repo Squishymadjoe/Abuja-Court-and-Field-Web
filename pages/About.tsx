@@ -1,7 +1,11 @@
 import React from 'react';
 import { HOSTS } from '../constants';
 
-const About: React.FC = () => {
+// BOLT ⚡: Performance Optimization
+// - WHAT: Wrapped About component in React.memo.
+// - WHY: Prevents re-renders when the global app state (playback) changes.
+// - IMPACT: Consistent performance for static content pages.
+const About: React.FC = React.memo(() => {
   return (
     <div className="w-full flex flex-col items-center">
       {/* Hero Section */}
@@ -81,6 +85,6 @@ const About: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default About;
