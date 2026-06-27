@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,18 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  /* BOLT ⚡: Memoize event handler to prevent downstream re-renders of components receiving it as a prop */
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /*
+     BOLT ⚡: Memoize the page element tree.
+     This prevents the entire page from re-instantiating on every App state change (like isPlaying toggles).
+     By using useMemo here, we take advantage of React's referential equality bail-out for children.
+  */
+  const pageElement = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +38,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +48,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {pageElement}
     </Layout>
   );
 };
