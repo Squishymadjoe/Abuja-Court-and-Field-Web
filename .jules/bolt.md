@@ -1,0 +1,3 @@
+## 2025-05-14 - [Memoizing Manual Routing]
+**Learning:** Manual switch-case routing in a root component (like `App.tsx`) causes the entire active page component tree to re-instantiate on every parent state change if the result of the switch-case is not memoized. This "render leak" is especially noticeable when global UI state (like an audio player's `isPlaying` status) changes frequently.
+**Action:** Use `useMemo` to wrap manual routing logic and `useCallback` for any event handlers passed into the routed components. This ensures that React can use referential equality to bail out of unnecessary re-renders for the entire page subtree.
