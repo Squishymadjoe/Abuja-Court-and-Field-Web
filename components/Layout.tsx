@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Page, Episode } from '../types';
 
 interface LayoutProps {
@@ -10,7 +10,7 @@ interface LayoutProps {
   setIsPlaying: (playing: boolean) => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ 
+const Layout: React.FC<LayoutProps> = memo(({
   currentPage, 
   setCurrentPage, 
   children,
@@ -182,6 +182,6 @@ const Layout: React.FC<LayoutProps> = ({
       )}
     </div>
   );
-};
+});
 
 export default Layout;
