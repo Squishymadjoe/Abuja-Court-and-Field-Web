@@ -1,0 +1,3 @@
+## 2026-07-05 - [Memoizing Manual Routing Content]
+**Learning:** In a manual routing setup where the root component (`App.tsx`) also holds global state like an audio player, every audio state change triggers a full re-render of the active page component tree. Stabilizing handlers with `useCallback` and memoizing the switch-case result with `useMemo` leverages React's 'Same Element Reference' optimization, effectively blocking these re-renders without needing `React.memo` on every child.
+**Action:** Always check root-level routing switches for memoization opportunities when global UI state (players, modals, toasts) is involved.
