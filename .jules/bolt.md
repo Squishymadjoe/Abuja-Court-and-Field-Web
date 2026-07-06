@@ -1,0 +1,3 @@
+## 2025-05-22 - [Same Element Reference Optimization]
+**Learning:** React's 'referential equality bail-out' (Same Element Reference) is a powerful way to prevent re-renders of large component trees. By memoizing the element tree returned by a switch-case router using `useMemo` and stabilizing any passed callbacks with `useCallback`, you can completely isolate page components from unrelated parent state changes (like global audio player state) without needing to wrap every child in `React.memo`.
+**Action:** Always look for manual routing patterns in `App.tsx` and ensure the rendered element is memoized if the parent holds frequently changing state.
