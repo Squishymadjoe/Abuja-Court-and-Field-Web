@@ -32,7 +32,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  }, [currentPage, setCurrentPage, handlePlayEpisode]);
+  }, [currentPage, setCurrentPage, handlePlayEpisode, currentEpisode]);
 
   return (
     <Layout 
