@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,24 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  // BOLT ⚡: Performance Optimization
+  // - WHAT: Memoized handlePlayEpisode callback with useCallback.
+  // - WHY: Prevents this function from being recreated on every render of App.
+  // - IMPACT: Ensures that child components receiving this as a prop don't re-render
+  //   unnecessarily due to prop reference changes when audio player state updates.
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  // BOLT ⚡: Performance Optimization
+  // - WHAT: Memoized the rendered page component tree using useMemo.
+  // - WHY: Leveraging React's 'Same Element Reference' optimization. If the dependencies
+  //   (currentPage, handlePlayEpisode) don't change, React will reuse the previous
+  //   rendered element tree, completely skipping the re-render of the active page.
+  // - IMPACT: Eliminates 100% of page re-renders triggered by audio player state
+  //   changes (isPlaying, currentEpisode).
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +44,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +54,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };
