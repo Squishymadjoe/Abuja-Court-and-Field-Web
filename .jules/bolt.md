@@ -1,0 +1,3 @@
+## 2025-05-15 - [Same Element Reference Optimization for Manual Routing]
+**Learning:** In React applications with manual routing (switch-case in the parent), global state changes (like audio player controls) trigger re-renders of the root component. This causes the entire active page component tree to be re-instantiated if it's rendered via a function call, even if the page component itself hasn't changed.
+**Action:** Stabilize event handlers with `useCallback` and memoize the rendered page element with `useMemo`. This leverages React's 'Same Element Reference' optimization, which stops the reconciliation process early for that subtree, eliminating 100% of unnecessary re-renders in the page content without needing `React.memo` on every child.
