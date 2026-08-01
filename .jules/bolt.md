@@ -1,0 +1,7 @@
+# Bolt Performance Journal
+
+## 2025-03-04 - React Manual Routing Render Leaks
+**Learning:** In a single-page React app with a custom manual routing switch (e.g., `switch(currentPage)`), updating unrelated parent state (such as an audio player's `currentEpisode` or `isPlaying`) triggers a full re-render of the parent component. This in turn completely re-instantiates and re-renders the active child page component tree (e.g., `<Home />`, `<Episodes />`), causing a "render leak".
+Using standard React.memo on the child components is often redundant if they receive dynamic or unstable props. Instead, stabilizing dynamic callback handlers with `useCallback` and memoizing the rendered page element tree using `useMemo` (the "Three-Part Synchronization" pattern) eliminates these unnecessary re-renders completely by leveraging React's Same Element Reference optimization.
+Additionally, when memoizing the switch-case manual routing, the dependency array should include only router-related variables (`currentPage`, `setCurrentPage`, and stable page handlers). It must purposely omit the player state properties (`currentEpisode`, `isPlaying`) since none of the pages actually consume or depend on those values.
+**Action:** Apply the Three-Part Synchronization pattern (stable callbacks with `useCallback` + memoized manual routing switch with `useMemo` + precise dependencies excluding player state) on any manual routing components to prevent page component render leaks.
