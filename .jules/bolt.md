@@ -1,0 +1,3 @@
+## 2026-08-05 - Same Element Reference Optimization for Manual Routing
+**Learning:** In React applications with manual client-side routing (e.g., using a switch-case `renderPage` function), storing global/player state at the parent level triggers full-tree re-instantiations on every player state update (such as play, pause, or track changes). By wrapping the routing logic in `useMemo` (Same Element Reference optimization) and keeping dependencies limited only to routing-related variables, we completely halt component tree re-renders during audio updates.
+**Action:** Always memoize the active page component tree in manual-routing setups to protect downstream components from parent-level state leaks.
