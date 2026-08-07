@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,26 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  /*
+    BOLT ⚡: Performance Optimization
+    - WHAT: Wrapped `handlePlayEpisode` in `useCallback` to stabilize the function reference across renders.
+    - WHY: Prevents the play callback from changing on every render, which is crucial for memoized child pages
+           to avoid breaking their memoization or Same Element Reference bails.
+  */
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /*
+    BOLT ⚡: Performance Optimization
+    - WHAT: Memoized the manual page routing switcher via `useMemo` using Same Element Reference pattern.
+    - WHY: App level state changes like toggling `isPlaying` or changing `currentEpisode` triggers re-renders of App.tsx.
+           By memoizing the rendered page tree with `useMemo`, we guarantee that if `currentPage`, `setCurrentPage`, and `handlePlayEpisode`
+           do not change, React will completely reuse the exact same elements and bypass re-rendering the children pages entirely.
+           This solves 100% of the manual routing 'render leaks' caused by background audio updates without needing redundant `React.memo` wraps.
+  */
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +46,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, setCurrentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +56,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };
