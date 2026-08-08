@@ -1,0 +1,3 @@
+## 2025-08-08 - [Manual Routing Switch-Case Render Leak]
+**Learning:** React re-renders the whole subpage element tree when parent states (like player playback/track) change, even if the subpage components are pure or unchanged. This is because inline JSX elements in a switch-case statement (e.g. `renderPage()`) always evaluate to brand new React element descriptors.
+**Action:** Use `useCallback` to stabilize all callback handlers and `useMemo` to memoize the rendered routing JSX element tree in manual routing applications. This leverages React's Same Element Reference bail-out optimization, reducing unnecessary page re-renders by 100% without wrapping every page component in redundant `React.memo`.
