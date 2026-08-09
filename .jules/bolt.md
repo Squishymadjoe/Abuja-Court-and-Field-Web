@@ -1,0 +1,3 @@
+## 2025-02-19 - [Render Leak Prevention in App Routing]
+**Learning:** In App.tsx, toggling audio player state (isPlaying/currentEpisode) triggers re-renders of the active page component tree. Stabilizing handlers with `useCallback` and memoizing the switch-case result with `useMemo` eliminates these unnecessary renders by 100% via Same Element Reference optimization.
+**Action:** Always identify manual routing switch-case statements and wrap them with `useMemo` alongside stabilized handler references, preventing state change leaks from re-instantiating massive page subtrees.
