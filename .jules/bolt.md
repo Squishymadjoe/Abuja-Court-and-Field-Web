@@ -1,0 +1,3 @@
+## 2025-03-05 - manual routing render leaks in React
+**Learning:** Toggling layout-level state (like the playing state of a global audio player) triggers a full re-render of the parent `App` component. Without memoization, this forces the entire active page element tree to re-render, creating a severe performance leak. Wrapping the switch-case manual routing in `useMemo` solves this completely.
+**Action:** Always use the 'Three-Part Synchronization' pattern (stable callbacks with `useCallback` and memoized page element trees with `useMemo`) to stabilize page transitions and eliminate parent-state-triggered render leaks.
