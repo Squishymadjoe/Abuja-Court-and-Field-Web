@@ -1,0 +1,3 @@
+## 2025-03-09 - Same Element Reference Optimization
+**Learning:** In App.tsx, toggling audio player state (isPlaying/currentEpisode) triggers re-renders of the active page component tree; stabilizing handlers with `useCallback` and memoizing the switch-case result with `useMemo` eliminates these unnecessary renders by 100% (Same Element Reference optimization).
+**Action:** When wrapping a functional component declaration or using a switch-case router, prefer Same Element Reference pattern using `useMemo` to keep page rendering isolated from sibling component state changes (such as persistent media/audio players).
