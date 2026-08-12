@@ -1,0 +1,3 @@
+## 2025-08-12 - [Manual Router Render Leak Prevention]
+**Learning:** In a React application utilizing manual switch-case routing within a parent component (e.g. App.tsx) along with state updates for auxiliary elements (such as an audio player), every parent state change will re-instantiate and re-render the entire active child page component tree. Standard React.memo wrapping of page components is fragile if handlers passed as props change reference.
+**Action:** Implement the Three-Part Synchronization pattern: stabilize handler props with `useCallback`, memoize the switch-case manual routing results with `useMemo`, and supply correct reactive dependencies. This leverages React's Same Element Reference optimization to completely prevent render leaks.
