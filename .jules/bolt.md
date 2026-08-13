@@ -1,0 +1,3 @@
+## 2025-03-09 - Same Element Reference & React Manual Routing Optimization
+**Learning:** In React manual routing implementations, toggling unrelated states (like a global audio player state in a parent wrapper) triggers a complete component re-render. Memoizing the rendered element tree via `useMemo` (Same Element Reference optimization) is much cleaner and more performant than adding `React.memo` to every child page component, as React automatically bails out of re-rendering if the elements are referentially identical.
+**Action:** Use `useCallback` to stabilize event handlers passed to page components, and wrap manual routing switch-cases in `useMemo`, omitting non-reacting states from the dependency array.
