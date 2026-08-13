@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,27 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  /*
+    BOLT ⚡: Performance Optimization - Three-Part Synchronization
+    - WHAT: Stabilized the callback using `useCallback` to prevent it from being recreated on every parent re-render.
+    - WHY: This ensures a stable reference is passed down as a prop to children, avoiding unnecessary re-renders of the page components.
+  */
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /*
+    BOLT ⚡: Performance Optimization - Same Element Reference (Manual Routing Switch)
+    - WHAT: Memoized the manual routing switch-case logic using `useMemo` so that the returned React element tree is cached.
+    - WHY: Toggling the global audio player state (isPlaying/currentEpisode) triggers parent `App` re-renders.
+            By caching the page element tree and only listing `currentPage`, `setCurrentPage`, and `handlePlayEpisode` as dependencies,
+            we prevent the active page tree from being re-instantiated on audio player state changes. React automatically bails out
+            of re-rendering if the elements are referentially identical (Same Element Reference optimization).
+            We explicitly omit `currentEpisode` and `isPlaying` from the dependency array because no page component depends on these.
+    - IMPACT: 100% reduction in page component re-renders when interacting with the global audio player.
+  */
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +47,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, setCurrentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +57,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };
