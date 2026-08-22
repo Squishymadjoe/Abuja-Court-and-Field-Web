@@ -1,0 +1,3 @@
+## 2025-05-22 - Preventing Route Re-renders on Audio Player State Changes
+**Learning:** In manual switch-case routing patterns in React root components, audio player state changes (play/pause, current track) force top-level re-renders that recreate JSX element trees for active route components unless memoized. Wrapping the routing switch in `useMemo` and stabilizing event handlers with `useCallback` triggers React's Same Element Reference optimization, completely skipping child route re-renders.
+**Action:** When working with top-level state changes in switch-case React routers, always wrap route elements in `useMemo` and event handlers in `useCallback`.
