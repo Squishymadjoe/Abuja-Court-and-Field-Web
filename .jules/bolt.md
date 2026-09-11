@@ -1,0 +1,3 @@
+## 2026-09-11 - App-level state changes re-rendering page routing trees
+**Learning:** In applications using manual routing with a switch statement in `App.tsx`, parent state changes (such as audio player toggles `isPlaying`/`currentEpisode`) force the entire page component subtree to re-render unless page element creation is memoized via `useMemo` and callbacks passed to page components are stabilized with `useCallback`.
+**Action:** Always wrap manual page routing switch statements in `useMemo` and event handlers passed to route components in `useCallback` to leverage React's 'Same Element Reference' optimization and avoid re-rendering entire page trees on player interactions.
