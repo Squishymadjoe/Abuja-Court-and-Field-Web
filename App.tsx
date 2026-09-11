@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,20 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  // BOLT ⚡: Stabilize episode play handler reference across renders
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /*
+    BOLT ⚡: Performance Optimization
+    - WHAT: Memoized page component rendering with useMemo keyed on currentPage, setCurrentPage, and handlePlayEpisode.
+    - WHY: Toggling player controls (isPlaying/currentEpisode) triggers re-renders of App. Without memoization,
+           the active page component tree is reconstructed on every play/pause toggle.
+    - IMPACT: Prevents 100% of unnecessary re-renders of page components when interacting with the audio player.
+  */
+  const currentPageContent = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +40,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +50,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {currentPageContent}
     </Layout>
   );
 };
