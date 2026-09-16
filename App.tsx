@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,22 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  // BOLT ⚡: Performance Optimization
+  // - WHAT: Stabilize handlePlayEpisode callback reference using useCallback.
+  // - WHY: Prevents creating a new function instance on every App re-render.
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  // BOLT ⚡: Performance Optimization
+  // - WHAT: Memoize rendered active page component using useMemo (Same Element Reference pattern).
+  // - WHY: Toggling audio player state (isPlaying/currentEpisode) re-renders App to update Layout's audio controls.
+  //   Without memoization, the switch-case returns a new JSX element tree on every render, triggering full re-renders
+  //   of the entire active page (Home, Episodes, etc.) and all child components.
+  // - IMPACT: Reduces unnecessary page component re-renders by 100% when toggling playback state.
+  // - DEPENDENCIES: Excludes currentEpisode/isPlaying so player state updates do not break element reference stability.
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +42,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, setCurrentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +52,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };
