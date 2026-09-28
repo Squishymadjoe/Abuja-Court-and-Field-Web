@@ -6,13 +6,22 @@ const About: React.FC = () => {
     <div className="w-full flex flex-col items-center">
       {/* Hero Section */}
       <div className="w-full px-4 md:px-10 py-5 max-w-[1280px]">
-        <div className="rounded-xl overflow-hidden relative min-h-[480px] flex flex-col justify-center items-center text-center p-8 md:p-16 gap-6 group" 
-          style={{ 
-            backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDnzRxt3oKKTQKzODqxx3HaTHUkXJ5lGww07vF8E0YIFkRGD64lG4G5OMAKHoCobcQ2-J-1x5mhVjy9aGXRH24uysaWcsqd2KMXBn8vuZXhWwZ7EE4zMdFJJLflt7Rrar2jYqxCKDNVI2hWOWaWanGS9XvZlLOfbVd67AGevZCkZvc0Q4rtsN0-SdK8nQk1oDwUoZ9jDn3tIRct4CPh7YD2FGET_zIrlY2m0hSn4H-b2HCsrE9IQeKqMwdJ2bgS_RoefhU9H6UtY4sU")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
+        <div className="rounded-xl overflow-hidden relative min-h-[480px] flex flex-col justify-center items-center text-center p-8 md:p-16 gap-6 group">
+          {/*
+            BOLT ⚡: Performance Optimization
+            - WHAT: Replaced a CSS background-image with an <img> tag for the hero image.
+            - WHY: Using an <img> tag allows the browser's preload scanner to discover and start downloading the hero image much earlier in the page load process. CSS background images are only discovered after CSS is parsed, which can delay the download of a critical, above-the-fold image like this one.
+            - IMPACT: Significantly improves the Largest Contentful Paint (LCP) metric when navigating to or landing on the About page.
+            - MEASUREMENT: LCP can be measured using tools like Lighthouse or WebPageTest. The image request should appear earlier in the network waterfall chart.
+          */}
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnzRxt3oKKTQKzODqxx3HaTHUkXJ5lGww07vF8E0YIFkRGD64lG4G5OMAKHoCobcQ2-J-1x5mhVjy9aGXRH24uysaWcsqd2KMXBn8vuZXhWwZ7EE4zMdFJJLflt7Rrar2jYqxCKDNVI2hWOWaWanGS9XvZlLOfbVd67AGevZCkZvc0Q4rtsN0-SdK8nQk1oDwUoZ9jDn3tIRct4CPh7YD2FGET_zIrlY2m0hSn4H-b2HCsrE9IQeKqMwdJ2bgS_RoefhU9H6UtY4sU"
+            alt="Inside Abuja's Grassroots Sports Scene"
+            fetchpriority="high"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80"></div>
+
           <div className="flex flex-col gap-4 max-w-3xl z-10">
             <h1 className="text-white text-4xl md:text-6xl font-black leading-tight tracking-tighter uppercase drop-shadow-lg">
               Meet the Voices <br/><span className="text-primary">Behind the Podcast</span>
