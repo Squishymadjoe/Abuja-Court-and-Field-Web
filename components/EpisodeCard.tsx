@@ -62,4 +62,5 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay }) => {
   );
 };
 
-export default EpisodeCard;
+// BOLT ⚡: Memoize EpisodeCard to prevent unnecessary re-renders when parent components re-render with unchanged props.
+export default React.memo(EpisodeCard);
