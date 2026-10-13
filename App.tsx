@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,22 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  // BOLT ⚡: Stabilize handlePlayEpisode callback so page components don't receive new prop references
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /*
+   * BOLT ⚡: Performance Optimization - Manual Routing Memoization
+   * WHAT: Memoized the rendered active page element tree using useMemo.
+   * WHY: Toggling audio playback (isPlaying / currentEpisode state changes in App) caused App to re-render,
+   *      re-executing the switch statement and returning new React element objects for the active page.
+   *      By memoizing the switch-case result, React reuses the exact same element reference ("Same Element Reference" optimization),
+   *      bailing out of re-rendering the active page component sub-tree when only audio playback state changes.
+   * IMPACT: Eliminates unnecessary page component re-renders when interacting with the audio player.
+   */
+  const renderedPage = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +42,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, setCurrentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +52,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {renderedPage}
     </Layout>
   );
 };
