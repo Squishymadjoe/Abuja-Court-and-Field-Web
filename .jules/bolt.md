@@ -1,0 +1,3 @@
+## 2025-05-18 - Prevent routing re-renders during audio playback state changes
+**Learning:** In React manual router setups where top-level player state (isPlaying/currentEpisode) lives in App alongside routing state, toggling audio player controls causes App to re-render. Without `useCallback` on event handlers and `useMemo` on the manual route switch, a new JSX element tree is returned every render, unmounting and re-rendering the active page component tree.
+**Action:** Stabilize event handlers with `useCallback` and memoize the rendered page JSX tree with `useMemo`, omitting `currentEpisode` from dependencies if page components don't consume it.
