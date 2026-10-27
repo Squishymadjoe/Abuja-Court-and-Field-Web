@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Episodes from './pages/Episodes';
@@ -12,12 +12,23 @@ const App: React.FC = () => {
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayEpisode = (episode: Episode) => {
+  // BOLT ⚡: Stabilize handler callback to prevent unnecessary child re-renders.
+  const handlePlayEpisode = useCallback((episode: Episode) => {
     setCurrentEpisode(episode);
     setIsPlaying(true);
-  };
+  }, []);
 
-  const renderPage = () => {
+  /*
+    BOLT ⚡: Performance Optimization
+    - WHAT: Memoized active page component tree using useMemo.
+    - WHY: Toggling sticky audio player state (isPlaying/currentEpisode) triggers re-renders of App.
+            Without useMemo, renderPage() instantiates a brand new page element on every render,
+            forcing the entire active page sub-tree (Home, Episodes, etc.) to re-render.
+            By memoizing the rendered page element tree based on [currentPage, setCurrentPage, handlePlayEpisode],
+            React re-uses the exact same element reference across player state updates (Same Element Reference optimization).
+    - IMPACT: Eliminates 100% of unnecessary page component re-renders during audio playback/pause toggles.
+  */
+  const pageElement = useMemo(() => {
     switch (currentPage) {
       case 'home':
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
@@ -32,7 +43,7 @@ const App: React.FC = () => {
       default:
         return <Home setPage={setCurrentPage} onPlay={handlePlayEpisode} />;
     }
-  };
+  }, [currentPage, setCurrentPage, handlePlayEpisode]);
 
   return (
     <Layout 
@@ -42,7 +53,7 @@ const App: React.FC = () => {
       isPlaying={isPlaying}
       setIsPlaying={setIsPlaying}
     >
-      {renderPage()}
+      {pageElement}
     </Layout>
   );
 };
