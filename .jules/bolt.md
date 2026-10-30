@@ -1,0 +1,3 @@
+## 2025-05-20 - Manual routing re-render elimination with Same Element Reference
+**Learning:** Updating global audio player state (`isPlaying`, `currentEpisode`) in `App.tsx` causes the entire active page subtree (`Home`, `Episodes`, etc.) to re-render unnecessarily on every play/pause or episode change. Stabilizing handler callbacks with `useCallback` and memoizing the switch-case route element with `useMemo` leverages React's "Same Element Reference" optimization to bail out of rendering child trees completely without needing `React.memo` on every individual page component.
+**Action:** Always memoize switch-case router element rendering and callback handlers in top-level app components when parent state frequently updates independently of active page components.
